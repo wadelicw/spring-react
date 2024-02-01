@@ -1,5 +1,17 @@
-export default function Home() {
+import { ExploreTopBooks } from "@/components/ExploreTopBooks";
+import { Heros } from "@/components/Heros";
+import { LibraryServices } from "@/components/LibraryServices";
+import { FC } from "react";
+
+const Home: FC<{}> = () => {
   return (
-    <div className="text-danger">test bootstrap</div>
+    <>
+      <ExploreTopBooks />
+      {/* <Carousel /> */}
+      <Heros />
+      <LibraryServices />
+    </>
   );
 }
+
+export default Home;
