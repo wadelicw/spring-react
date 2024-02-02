@@ -1,3 +1,4 @@
+"use client";
 import { Book } from "@/types/book";
 import { SpinnerLoading } from "@/utils/SpinnerLoading";
 import Link from "next/link";
@@ -8,59 +9,48 @@ export const Carousel: FC<{}> = () => {
 
   const [books, setBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [httpError, setHttpError] = useState(null);
+
+  const fetchBooks = async () => {
+    const baseUrl: string = process.env.apiEndpoint + "/books";
+
+    const url: string = `${baseUrl}?page=0&size=9`;
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error("Something went wrong!");
+    }
+
+    const responseJson = await response.json();
+
+    const responseData = responseJson._embedded.books;
+
+    const loadedBooks: Book[] = [];
+
+    for (const key in responseData) {
+      loadedBooks.push({
+        id: responseData[key].id,
+        title: responseData[key].title,
+        author: responseData[key].author,
+        description: responseData[key].description,
+        copies: responseData[key].copies,
+        copiesAvailable: responseData[key].copiesAvailable,
+        category: responseData[key].category,
+        img: responseData[key].img,
+      });
+    }
+
+    setBooks(loadedBooks);
+    setIsLoading(false);
+  };
 
   useEffect(() => {
-    const fetchBooks = async () => {
-      const baseUrl: string = "http://localhost:8080/api/books";
-
-      const url: string = `${baseUrl}?page=0&size=9`;
-
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error("Something went wrong!");
-      }
-
-      const responseJson = await response.json();
-
-      const responseData = responseJson._embedded.books;
-
-      const loadedBooks: Book[] = [];
-
-      for (const key in responseData) {
-        loadedBooks.push({
-          id: responseData[key].id,
-          title: responseData[key].title,
-          author: responseData[key].author,
-          description: responseData[key].description,
-          copies: responseData[key].copies,
-          copiesAvailable: responseData[key].copiesAvailable,
-          category: responseData[key].category,
-          img: responseData[key].img,
-        });
-      }
-
-      setBooks(loadedBooks);
-      setIsLoading(false);
-    };
-    fetchBooks().catch((error: any) => {
-      setIsLoading(false);
-      setHttpError(error.message);
-    })
+    fetchBooks().catch(() => setIsLoading(false));
   }, []);
 
   if (isLoading) {
     return (
       <SpinnerLoading />
-    );
-  }
-
-  if (httpError) {
-    return (
-      <div className="container m-5">
-        <p>{httpError}</p>
-      </div>
     );
   }
 

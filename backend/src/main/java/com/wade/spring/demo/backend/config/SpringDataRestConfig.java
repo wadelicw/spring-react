@@ -30,7 +30,7 @@ public class SpringDataRestConfig implements RepositoryRestConfigurer {
                 .allowedOrigins(theAllowedOrigins);
     }
 
-    private void disableHttpMethods(Class theClass,
+    private void disableHttpMethods(@SuppressWarnings("rawtypes") Class theClass,
             RepositoryRestConfiguration config,
             HttpMethod[] theUnsupportedActions) {
         config.getExposureConfiguration()

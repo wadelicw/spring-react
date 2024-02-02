@@ -15,7 +15,7 @@ export const ReturnBook: FC<{ book: Book }> = (props) => {
           />
           :
           <img
-            src={require("/images/books/new-book-1.png")}
+            src={"/images/books/new-book-1.png"}
             width="151"
             height="233"
             alt="book"
@@ -23,7 +23,7 @@ export const ReturnBook: FC<{ book: Book }> = (props) => {
         }
         <h6 className="mt-2">{props.book.title}</h6>
         <p>{props.book.author}</p>
-        <Link className="btn main-color text-white" href={`checkout/${props.book.id}`}>Reserve</Link>
+        <Link className="btn btn-outline-dark" href={`checkout/${props.book.id}`}>Reserve</Link>
       </div>
     </div>
   );
