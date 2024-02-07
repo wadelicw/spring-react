@@ -22,43 +22,21 @@ const SearchBookPage: FC<{}> = () => {
     const fetchBooks = async () => {
       const baseUrl: string = process.env.apiEndpoint + "/books";
       let url: string = "";
-
       if (searchUrl === "") {
         url = `${baseUrl}?page=${currentPage - 1}&size=${booksPerPage}`;
       } else {
         let searchWithPage = searchUrl.replace("<pageNumber>", `${currentPage - 1}`);
         url = baseUrl + searchWithPage;
       }
-
       const response = await fetch(url);
-
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
-
       const responseJson = await response.json();
-
       const responseData = responseJson._embedded.books;
-
       setTotalAmountOfBooks(responseJson.page.totalElements);
       setTotalPages(responseJson.page.totalPages);
-
-      const loadedBooks: Book[] = [];
-
-      for (const key in responseData) {
-        loadedBooks.push({
-          id: responseData[key].id,
-          title: responseData[key].title,
-          author: responseData[key].author,
-          description: responseData[key].description,
-          copies: responseData[key].copies,
-          copiesAvailable: responseData[key].copiesAvailable,
-          category: responseData[key].category,
-          img: responseData[key].img,
-        });
-      }
-
-      setBooks(loadedBooks);
+      setBooks(responseData);
       setIsLoading(false);
     };
     fetchBooks().catch(() => setIsLoading(false));

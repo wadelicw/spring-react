@@ -13,35 +13,14 @@ export const Carousel: FC<{}> = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       const baseUrl: string = process.env.apiEndpoint + "/books";
-
       const url: string = `${baseUrl}?page=0&size=9`;
-
       const response = await fetch(url);
-
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
-
       const responseJson = await response.json();
-
       const responseData = responseJson._embedded.books;
-
-      const loadedBooks: Book[] = [];
-
-      for (const key in responseData) {
-        loadedBooks.push({
-          id: responseData[key].id,
-          title: responseData[key].title,
-          author: responseData[key].author,
-          description: responseData[key].description,
-          copies: responseData[key].copies,
-          copiesAvailable: responseData[key].copiesAvailable,
-          category: responseData[key].category,
-          img: responseData[key].img,
-        });
-      }
-
-      setBooks(loadedBooks);
+      setBooks(responseData);
       setIsLoading(false);
     };
     fetchBooks().catch(() => setIsLoading(false));
