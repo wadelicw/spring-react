@@ -18,8 +18,9 @@ const SearchBookPage: FC<{}> = () => {
   const [categorySelection, setCategorySelection] = useState("Book category");
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchBooks = async () => {
-      const baseUrl: string = "http://localhost:8080/api/books";
+      const baseUrl: string = process.env.apiEndpoint + "/books";
       let url: string = "";
 
       if (searchUrl === "") {
@@ -62,12 +63,12 @@ const SearchBookPage: FC<{}> = () => {
     };
     fetchBooks().catch(() => setIsLoading(false));
     window.scrollTo(0, 0);
-  }, [currentPage, searchUrl]);
+  }, [currentPage, booksPerPage, searchUrl]);
 
   if (isLoading) {
     return (
       <SpinnerLoading />
-    )
+    );
   }
 
   const searchHandleChange = () => {
@@ -171,7 +172,7 @@ const SearchBookPage: FC<{}> = () => {
             :
             <div className="m-5">
               <h3>
-                Can"t find what you are looking for?
+                Can&ldquo;t find what you are looking for?
               </h3>
               <a type="button" className="btn main-color btn-md px-4 me-md-2 fw-bold text-white"
                 href="#">Library Services</a>

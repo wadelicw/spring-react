@@ -1,4 +1,5 @@
 import { Book } from "@/types/book";
+import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 
@@ -7,14 +8,14 @@ export const ReturnBook: FC<{ book: Book }> = (props) => {
     <div className="col-xs-6 col-sm-6 col-md-4 col-lg-3 mb-3">
       <div className="text-center">
         {props.book.img ?
-          <img
+          <Image
             src={props.book.img}
             width="151"
             height="233"
             alt="book"
           />
           :
-          <img
+          <Image
             src={"/images/books/new-book-1.png"}
             width="151"
             height="233"

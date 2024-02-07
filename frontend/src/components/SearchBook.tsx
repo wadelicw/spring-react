@@ -1,4 +1,5 @@
 import { Book } from "@/types/book";
+import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 
@@ -9,13 +10,13 @@ export const SearchBook: FC<{ book: Book }> = (props) => {
         <div className="col-md-2">
           <div className="d-none d-lg-block">
             {props.book.img ?
-              <img src={props.book.img}
+              <Image src={props.book.img}
                 width="123"
                 height="196"
                 alt="Book"
               />
               :
-              <img src={"/images/books/new-book-1.png"}
+              <Image src={"/images/books/new-book-1.png"}
                 width="123"
                 height="196"
                 alt="Book"
@@ -25,13 +26,13 @@ export const SearchBook: FC<{ book: Book }> = (props) => {
           <div className="d-lg-none d-flex justify-content-center
                         align-items-center">
             {props.book.img ?
-              <img src={props.book.img}
+              <Image src={props.book.img}
                 width="123"
                 height="196"
                 alt="Book"
               />
               :
-              <img src={"/images/books/new-book-1.png"}
+              <Image src={"/images/books/new-book-1.png"}
                 width="123"
                 height="196"
                 alt="Book"

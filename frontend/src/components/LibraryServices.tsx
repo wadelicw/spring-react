@@ -6,11 +6,11 @@ export const LibraryServices: FC<{}> = () => {
       <div className="row p-4 align-items-center border shadow-lg">
         <div className="col-lg-7 p-3">
           <h1 className="display-4 fw-bold">
-            Can"t find what you are looking for?
+            Can&ldquo;t find what you are looking for?
           </h1>
           <p className="lead">
             If you cannot find what you are looking for,
-            send our library admin"s a personal message!
+            send our library admin&ldquo;s a personal message!
           </p>
           <div className="d-grid gap-2 justify-content-md-start mb-4 mb-lg-3">
             {/* {authState?.isAuthenticated ? 
