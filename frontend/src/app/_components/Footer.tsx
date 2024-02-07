@@ -9,12 +9,12 @@ export const Footer: FC<{}> = () => {
         <p className="col-md-4 mb-0 text-white">© Example Library App, Inc</p>
         <ul className="nav navbar-dark col-md-4 justify-content-end">
           <li className="nav-item">
-            <Link href="#" className="nav-link px-2 text-white">
+            <Link href="/" className="nav-link px-2 text-white">
               Home
             </Link>
           </li>
           <li className="nav-item">
-            <Link href="#" className="nav-link px-2 text-white">
+            <Link href="/search" className="nav-link px-2 text-white">
               Search Books
             </Link>
           </li>

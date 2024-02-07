@@ -1,10 +1,10 @@
-import { Footer } from "@/components/Footer";
 import { ImportBsJS } from "@/components/ImportBsJS";
-import { NavBar } from "@/components/NavBar";
 import "@/styles/globals.css";
 import "bootstrap/dist/css/bootstrap.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Footer } from "./_components/Footer";
+import { NavBar } from "./_components/NavBar";
 
 const inter = Inter({ subsets: ["latin"] });
 

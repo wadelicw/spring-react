@@ -1,11 +1,11 @@
 "use client";
-import { SearchBook } from "@/components/SearchBook";
 import { Book } from "@/types/book";
 import { Pagination } from "@/utils/Pagination";
 import { SpinnerLoading } from "@/utils/SpinnerLoading";
 import { FC, useEffect, useState } from "react";
+import { SearchBook } from "./_components/SearchBook";
 
-const SearchBookPage: FC<{}> = () => {
+const Search: FC<{}> = () => {
 
   const [books, setBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -165,4 +165,4 @@ const SearchBookPage: FC<{}> = () => {
   );
 }
 
-export default SearchBookPage;
+export default Search;
