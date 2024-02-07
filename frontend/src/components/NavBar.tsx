@@ -16,10 +16,10 @@ export const NavBar: FC<{}> = () => {
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link className="nav-link" href="#">Homepage</Link>
+              <Link className="nav-link" href="/">Homepage</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" href="#">Search Books</Link>
+              <Link className="nav-link" href="/search">Search Books</Link>
             </li>
 
           </ul>
