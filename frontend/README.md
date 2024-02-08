@@ -39,7 +39,7 @@ add demo data into the tables
 npx prisma db seed
 ```
 
-if you have updated schema, it must run the following command to update client prisma for frontend
+first time init the project or after updated the schema, it must run the following command to update client prisma for frontend
 ```
 npx prisma generate
 ```
