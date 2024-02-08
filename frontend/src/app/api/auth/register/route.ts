@@ -1,3 +1,4 @@
+import prisma from "@/utils/prisma";
 import { hash } from "bcrypt";
 import { NextResponse } from "next/server";
 
@@ -9,6 +10,8 @@ export async function POST(request: Request) {
 
     const hashedPassword = await hash(password, 10);
 
+    const res = await prisma.user.findMany()
+    console.log(res)
   } catch (error) {
     console.log({ error });
   }

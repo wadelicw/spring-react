@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model book {
+  id               BigInt  @id @default(autoincrement())
+  title            String? @db.VarChar(45)
+  author           String? @db.VarChar(45)
+  description      String? @db.Text
+  copies           Int?
+  copies_available Int?
+  category         String? @db.VarChar(11)
+  img              Bytes?  @db.MediumBlob
+}
+
+model checkout {
+  id            BigInt  @id @default(autoincrement())
+  user_email    String? @db.VarChar(45)
+  checkout_date String? @db.VarChar(45)
+  return_date   String? @db.VarChar(45)
+  book_id       BigInt?
+}
+
+model history {
+  id            BigInt  @id @default(autoincrement())
+  user_email    String? @db.VarChar(45)
+  checkout_date String? @db.VarChar(45)
+  returned_date String? @db.VarChar(45)
+  title         String? @db.VarChar(45)
+  author        String? @db.VarChar(45)
+  description   String? @db.Text
+  img           Bytes?  @db.MediumBlob
+}
+
+model messages {
+  id          BigInt   @id @default(autoincrement())
+  user_email  String?  @db.VarChar(45)
+  title       String?  @db.VarChar(45)
+  question    String?  @db.Text
+  admin_email String?  @db.VarChar(45)
+  response    String?  @db.Text
+  closed      Boolean? @default(false)
+}
+
+model review {
+  id                 BigInt    @id @default(autoincrement())
+  user_email         String?   @db.VarChar(45)
+  date               DateTime? @db.DateTime(6)
+  rating             Decimal?  @db.Decimal(3, 2)
+  book_id            BigInt?
+  review_description String?   @db.Text
+}
+
+model user {
+  id       BigInt @id @unique(map: "id") @default(autoincrement()) @db.UnsignedBigInt
+  email    String @db.Text
+  password String @db.Text
+
+  @@map("user")
+}
