@@ -1,5 +1,8 @@
+# Fullstack Frontend Example with Next.js (REST API)
 
-1. Configure your local environment
+## Getting started
+
+### 1. Configure your local environment
 
 fits of all, go to the root path
 ```
@@ -12,9 +15,15 @@ cp .env.local.example .env.local
 ```
 
 this is for local test Prisma setup
-add .env with DATABASE_URL=mysql://<name>:<pw>@<url>:3306/<db>?sslaccept=strict" for local test with AWS db, there is a error without `sslaccept`, which will not occur on client side
+<br />
+add .env with
+```
+DATABASE_URL=mysql://<name>:<pw>@<url>:3306/<db>?sslaccept=strict"
+```
+for local test with AWS db, there is a error without `sslaccept`, which will not occur on client side
 
-2. Setup Prisma
+### 2. Setup Prisma
+
 run the following command to create your Mysql database file. This also creates the `User` and others tables that are defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
 ```
 npx prisma migrate dev --name init
@@ -35,8 +44,10 @@ for some situation, if you have updated schema, it must run the following comman
 npx prisma generate
 ```
 
-3. Run the development server:
+### 3. Run the development server:
 
+```
 npm run dev
+```
 
-4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
