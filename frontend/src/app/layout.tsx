@@ -2,6 +2,7 @@ import { ImportBsJS } from "@/components/ImportBsJS";
 import "@/styles/globals.css";
 import "bootstrap/dist/css/bootstrap.css";
 import type { Metadata } from "next";
+// import { getServerSession } from "next-auth";
 import { Inter } from "next/font/google";
 import { Footer } from "./_components/Footer";
 import { NavBar } from "./_components/NavBar";
@@ -13,11 +14,12 @@ export const metadata: Metadata = {
   description: "Wade's spingboot-react fullstackdemo project",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // const session = await getServerSession();
   return (
     <html lang="en">
       <body className={inter.className}>

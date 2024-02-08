@@ -25,7 +25,7 @@ export const NavBar: FC<{}> = () => {
           </ul>
           <ul className="navbar-nav ms-auto">
             <li className="nav-item m-1">
-              <Link type="button" className="btn btn-outline-light" href="#">
+              <Link type="button" className="btn btn-outline-light" href="/login">
                 Sign in
               </Link>
             </li>

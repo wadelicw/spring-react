@@ -6,12 +6,17 @@
 
 fits of all, go to the root path
 ```
-npm i
+npm install
 ```
 
 this is for frontend Nextjs env
 ```
 cp .env.local.example .env.local
+```
+
+we can use openssl to generate secret
+```
+openssl rand -base64 32
 ```
 
 this is for local test Prisma setup
@@ -34,12 +39,7 @@ add demo data into the tables
 npx prisma db seed
 ```
 
-on the other hand, if you already have db
-```
-npx prisma db pull
-```
-
-for some situation, if you have updated schema, it must run the following command to update client prisma for frontend
+if you have updated schema, it must run the following command to update client prisma for frontend
 ```
 npx prisma generate
 ```
