@@ -1,27 +1,19 @@
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client';
+import database from "./database.json";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
-const userData: Prisma.userCreateInput[] = [
-  {
-    email: 'alice@prisma.io',
-    password: "456"
-  },
-  {
-    email: 'nilu@prisma.io',
-    password: "123"
-  }
-]
+const bookData: Prisma.bookCreateInput[] = database.book;
 
 async function main() {
   console.log(`Start seeding ...`)
-  for (const u of userData) {
-    const user = await prisma.user.create({
-      data: u,
+  for (const b of bookData) {
+    const book = await prisma.book.create({
+      data: b,
     })
-    console.log(`Created user with id: ${user.id}`)
+    console.log(`Created book with id: ${book.id}`);
   }
-  console.log(`Seeding finished.`)
+  console.log(`Seeding finished.`);
 }
 
 main()

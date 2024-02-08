@@ -10,7 +10,7 @@ export const SearchBook: FC<{ book: Book }> = (props) => {
         <div className="col-md-2">
           <div className="d-none d-lg-block">
             {props.book.img ?
-              <Image src={props.book.img}
+              <Image src={"/images/books/" + props.book.img}
                 width="123"
                 height="196"
                 alt="Book"
@@ -26,7 +26,7 @@ export const SearchBook: FC<{ book: Book }> = (props) => {
           <div className="d-lg-none d-flex justify-content-center
                         align-items-center">
             {props.book.img ?
-              <Image src={props.book.img}
+              <Image src={"/images/books/" + props.book.img}
                 width="123"
                 height="196"
                 alt="Book"

@@ -1,31 +1,41 @@
 
 1. Configure your local environment
 
-This is for frontend Nextjs env
+fits of all, go to the root path
+```
+npm i
+```
+
+this is for frontend Nextjs env
 ```
 cp .env.local.example .env.local
 ```
 
-This is for local test Prisma setup
+this is for local test Prisma setup
 add .env with DATABASE_URL=mysql://<name>:<pw>@<url>:3306/<db>?sslaccept=strict" for local test with AWS db, there is a error without `sslaccept`, which will not occur on client side
 
 2. Setup Prisma
-Run the following command to create your Mysql database file. This also creates the `User` and others tables that are defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
+run the following command to create your Mysql database file. This also creates the `User` and others tables that are defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
 ```
 npx prisma migrate dev --name init
 ```
 
-if you already have db
+add demo data into the tables
 ```
-run npx prisma db pull
-```
-
-if you have updated schema, it must run the following command to update client prisma for frontend
-```
-run npx prisma generate
+npx prisma db seed
 ```
 
-3. run the development server:
+on the other hand, if you already have db
+```
+npx prisma db pull
+```
+
+for some situation, if you have updated schema, it must run the following command to update client prisma for frontend
+```
+npx prisma generate
+```
+
+3. Run the development server:
 
 npm run dev
 

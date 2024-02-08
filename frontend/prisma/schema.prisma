@@ -15,7 +15,7 @@ model book {
   copies           Int?
   copies_available Int?
   category         String? @db.VarChar(11)
-  img              Bytes?  @db.MediumBlob
+  img              String? @db.Text
 }
 
 model checkout {
@@ -58,6 +58,6 @@ model review {
 
 model user {
   id       BigInt @id @unique(map: "id") @default(autoincrement()) @db.UnsignedBigInt
-  email    String @db.Text
+  email    String @unique
   password String @db.Text
 }

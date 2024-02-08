@@ -9,14 +9,14 @@ export const ReturnBook: FC<{ book: Book }> = (props) => {
       <div className="text-center">
         {props.book.img ?
           <Image
-            src={props.book.img}
+            src={"/images/books/" + props.book.img}
             width="151"
             height="233"
             alt="book"
           />
           :
           <Image
-            src={"/images/books/new-book-1.png"}
+            src={"new-book-1.png"}
             width="151"
             height="233"
             alt="book"
