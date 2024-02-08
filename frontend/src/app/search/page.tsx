@@ -1,7 +1,7 @@
 "use client";
+import { Pagination } from "@/components/Pagination";
+import { SpinnerLoading } from "@/components/SpinnerLoading";
 import { Book } from "@/types/book";
-import { Pagination } from "@/utils/Pagination";
-import { SpinnerLoading } from "@/utils/SpinnerLoading";
 import { FC, useEffect, useState } from "react";
 import { SearchBook } from "./_components/SearchBook";
 

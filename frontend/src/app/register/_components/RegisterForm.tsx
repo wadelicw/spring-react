@@ -25,6 +25,7 @@ export const RegisterForm: FC<{}> = () => {
               <form onSubmit={handleSubmit}>
                 <div className="form-floating mb-3">
                   <input
+                    name="email"
                     type="email"
                     id="floatingInputEmail"
                     placeholder="name@example.com"
@@ -34,6 +35,7 @@ export const RegisterForm: FC<{}> = () => {
                 </div>
                 <div className="form-floating mb-3">
                   <input
+                    name="password"
                     type="password"
                     id="floatingPassword"
                     placeholder="Password"

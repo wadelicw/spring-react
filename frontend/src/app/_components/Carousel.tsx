@@ -1,6 +1,6 @@
 "use client";
+import { SpinnerLoading } from "@/components/SpinnerLoading";
 import { Book } from "@/types/book";
-import { SpinnerLoading } from "@/utils/SpinnerLoading";
 import Link from "next/link";
 import { FC, useEffect, useState } from "react";
 import { ReturnBook } from "../../components/ReturnBook";
