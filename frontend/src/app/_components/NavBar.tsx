@@ -1,7 +1,10 @@
+import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { FC } from "react";
+import { Logout } from "./Logout";
 
-export const NavBar: FC<{}> = () => {
+export const NavBar: FC<{}> = async () => {
+  const session = await getServerSession();
   return (
     <nav className="navbar navbar-expand-lg navbar-dark main-color py-3">
       <div className="container-fluid">
@@ -25,9 +28,15 @@ export const NavBar: FC<{}> = () => {
           </ul>
           <ul className="navbar-nav ms-auto">
             <li className="nav-item m-1">
-              <Link type="button" className="btn btn-outline-light" href="/login">
-                Sign in
-              </Link>
+              {
+                !session ? (
+                  <Link type="button" className="btn btn-outline-light" href="/login">
+                    Sign in
+                  </Link>
+                ) : (
+                  <Logout />
+                )
+              }
             </li>
           </ul>
         </div>

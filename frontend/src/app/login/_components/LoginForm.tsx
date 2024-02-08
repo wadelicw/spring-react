@@ -14,8 +14,10 @@ export const LoginForm: FC<{}> = () => {
       password: formData.get("password"),
       redirect: false
     });
+    console.log(response)
     if (response?.ok) {
       router.push("/");
+      router.refresh();
     } else {
       window.alert("User name or password incorrect!");
     }
