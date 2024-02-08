@@ -3,6 +3,7 @@
 **Frontend Features:**
 - Next Auth
 - Next Routing
+- Prisma migrate db/mysql client/seeding
 - Server side + client side rendering
 - ReactJS + TS
 - Bootstrap 5

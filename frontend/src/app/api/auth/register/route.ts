@@ -9,9 +9,13 @@ export async function POST(request: Request) {
     console.log({ email, password });
 
     const hashedPassword = await hash(password, 10);
-
-    const res = await prisma.user.findMany()
-    console.log(res)
+    const result = await prisma.user.create({
+      data: {
+        email,
+        password: hashedPassword
+      },
+    });
+    console.log(result);
   } catch (error) {
     console.log({ error });
   }
