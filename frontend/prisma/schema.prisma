@@ -60,6 +60,4 @@ model user {
   id       BigInt @id @unique(map: "id") @default(autoincrement()) @db.UnsignedBigInt
   email    String @db.Text
   password String @db.Text
-
-  @@map("user")
 }
