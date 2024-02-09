@@ -10,7 +10,10 @@ export const Logout: FC<{}> = () => {
     <button
       type="button"
       className="btn btn-outline-danger"
-      onClick={() => signOut({ redirect: false }).then(() => router.push("/"))}
+      onClick={() => signOut({ redirect: false }).then(() => {
+        router.push("/");
+        router.refresh();
+      })}
     >
       Logout
     </button>
