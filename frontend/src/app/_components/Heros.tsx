@@ -1,6 +1,9 @@
+import { getServerSession } from "next-auth";
+import Link from "next/link";
 import { FC } from "react";
 
-export const Heros: FC<{}> = () => {
+export const Heros: FC<{}> = async () => {
+  const session = await getServerSession();
   return (
     <div>
       <div className="d-none d-lg-block">
@@ -16,17 +19,24 @@ export const Heros: FC<{}> = () => {
                 Whether it is to learn a new skill or grow within one,
                 we will be able to provide the top content for you!
               </p>
-              {/* {authState?.isAuthenticated ?
-                <Link type="button" className="btn main-color btn-lg text-white"
-                  to="search">Explore top books </Link>
-                :
-                <Link className="btn main-color btn-lg text-white" to="/login">Sign up</Link>
-              } */}
+              {
+                session ? (
+                  <Link
+                    type="button"
+                    className="btn main-color btn-lg text-white"
+                    href="search"
+                  >
+                    Explore top books
+                  </Link>)
+                  : (
+                    <Link className="btn main-color btn-lg text-white" href="/login">Sign up</Link>
+                  )
+              }
             </div>
           </div>
         </div>
         <div className="row g-0">
-          <div className="col-4 col-md-4 container d-flex 
+          <div className="col-4 col-md-4 container d-flex
                         justify-content-center align-items-center">
             <div className="ml-2">
               <h1>Our collection is always changing!</h1>
@@ -57,12 +67,19 @@ export const Heros: FC<{}> = () => {
                 Whether it is to learn a new skill or grow within one,
                 we will be able to provide the top content for you!
               </p>
-              {/* {authState?.isAuthenticated ?
-                <Link type="button" className="btn main-color btn-lg text-white"
-                  to="search">Explore top books</Link>
-                :
-                <Link className="btn main-color btn-lg text-white" to="/login">Sign up</Link>
-              } */}
+              {
+                session ? (
+                  <Link
+                    type="button"
+                    className="btn main-color btn-lg text-white"
+                    href="search"
+                  >
+                    Explore top books
+                  </Link>)
+                  : (
+                    <Link className="btn main-color btn-lg text-white" href="/login">Sign up</Link>
+                  )
+              }
             </div>
           </div>
           <div className="m-2">
@@ -82,4 +99,4 @@ export const Heros: FC<{}> = () => {
       </div>
     </div>
   );
-}
+};
