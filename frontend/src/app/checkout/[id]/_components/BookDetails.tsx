@@ -1,4 +1,5 @@
 "use client";
+import { SpinnerLoading } from "@/components/SpinnerLoading";
 import { Book } from "@/types/book";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
@@ -6,10 +7,6 @@ import { FC, useEffect, useState } from "react";
 export const BookDetails: FC<{ id: string }> = (props) => {
   const [book, setBook] = useState<Book>();
   const [isLoading, setIsLoading] = useState(true);
-
-  // Is Book Check Out?
-  const [isCheckedOut, setIsCheckedOut] = useState(false);
-  const [isLoadingBookCheckedOut, setIsLoadingBookCheckedOut] = useState(true);
 
   useEffect(() => {
     const fetchBook = async () => {
@@ -22,10 +19,14 @@ export const BookDetails: FC<{ id: string }> = (props) => {
       setBook(responseJson);
       setIsLoading(false);
     };
-    fetchBook().catch((error: any) => {
-      setIsLoading(false);
-    })
-  }, [isCheckedOut]);
+    fetchBook().catch(() => setIsLoading(false));
+  }, []);
+
+  if (isLoading) {
+    return (
+      <SpinnerLoading />
+    )
+  }
 
   return (
     <>
@@ -56,4 +57,4 @@ export const BookDetails: FC<{ id: string }> = (props) => {
       </div>
     </>
   );
-}
+};

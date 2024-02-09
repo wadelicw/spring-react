@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { BookDetails } from "./_components/BookDetails";
+import { ReviewBox } from "./_components/ReviewBox";
 
 const Checkout: FC<{ params: { id: string } }> = (props) => {
     return (
@@ -11,7 +12,7 @@ const Checkout: FC<{ params: { id: string } }> = (props) => {
                     checkoutBook={checkoutBook} isReviewLeft={isReviewLeft} submitReview={submitReview} /> */}
             </div>
             <hr />
-            {/* <ReviewBox reviews={reviews} bookId={book?.id} mobile={false} /> */}
+            <ReviewBox id={props.params.id} />
         </div>
     );
 }
