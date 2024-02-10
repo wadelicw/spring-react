@@ -1,5 +1,6 @@
 "use client"
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { FC, FormEvent } from "react";
 
 export const RegisterForm: FC<{}> = () => {
@@ -13,7 +14,10 @@ export const RegisterForm: FC<{}> = () => {
         password: formData.get("password")
       })
     });
-    console.log(response);
+    if (response.ok) {
+      window.alert("success to register, please login");
+      redirect("/login");
+    }
   };
   return (
     <div className="container">
