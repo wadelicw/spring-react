@@ -1,4 +1,5 @@
 import { ImportBsJS } from "@/components/ImportBsJS";
+import SessionWrapper from "@/components/SessionWrapper";
 import "@/styles/globals.css";
 import "bootstrap/dist/css/bootstrap.css";
 import type { Metadata } from "next";
@@ -19,13 +20,15 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <ImportBsJS />
-        <NavBar />
-        {children}
-        <Footer />
-      </body>
-    </html>
+    <SessionWrapper>
+      <html lang="en">
+        <body className={inter.className}>
+          <ImportBsJS />
+          <NavBar />
+          {children}
+          <Footer />
+        </body>
+      </html>
+    </SessionWrapper>
   );
 }
