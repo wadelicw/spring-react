@@ -3,7 +3,6 @@ import { SpinnerLoading } from "@/components/SpinnerLoading";
 import { Book } from "@/types/book";
 import Image from "next/image";
 import { FC, useEffect, useState } from "react";
-import { StarsReview } from "./StarsReview";
 
 export const BookDetails: FC<{ id: string }> = (props) => {
   const [book, setBook] = useState<Book>();
@@ -54,7 +53,7 @@ export const BookDetails: FC<{ id: string }> = (props) => {
           <h2>{book?.title}</h2>
           <h5 className="text-primary">{book?.author}</h5>
           <p className="lead">{book?.description}</p>
-          <StarsReview rating={3.5} size={32} />
+          
         </div>
       </div>
     </>

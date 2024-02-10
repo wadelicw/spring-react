@@ -4,6 +4,7 @@ import { Review } from "@/types/review";
 import Link from "next/link";
 import { FC, useEffect, useState } from "react";
 import { ReviewItem } from "./ReviewItem";
+import { StarsReview } from "./StarsReview";
 
 export const ReviewBox: FC<{ id: string }> = (props) => {
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -56,31 +57,32 @@ export const ReviewBox: FC<{ id: string }> = (props) => {
 
   return (
     <div className="row mt-5">
-      <div className="col-sm-2 col-md-2">
-        <h2>Latest Reviews: </h2>
-      </div>
-      <div className="col-sm-10 col-md-10">
-        {reviews.length > 0 ?
-          <>
-            {reviews.slice(0, 3).map(eachReview => (
-              <ReviewItem review={eachReview} key={eachReview.id} />
-            ))}
-
-            <div className="m-3">
-              <Link type="button" className="btn main-color btn-md text-white"
-                href={`/book-review/${props.id}`}>
-                Reach all reviews.
-              </Link>
-            </div>
-          </>
-          :
-          <div className="m-3">
-            <p className="lead">
-              Currently there are no reviews for this book
-            </p>
-          </div>
-        }
-      </div>
+    <div className="col-sm-2 col-md-2">
+      <h4>Latest Reviews (avg stars): </h4>
+      <StarsReview rating={totalStars} size={32} />
     </div>
+    <div className="col-sm-10 col-md-10">
+      {reviews.length > 0 ?
+        <>
+          {reviews.slice(0, 3).map(eachReview => (
+            <ReviewItem review={eachReview} key={eachReview.id} />
+          ))}
+
+          <div className="m-3">
+            <Link type="button" className="btn main-color btn-md text-white"
+              href={`/book-review/${props.id}`}>
+              Reach all reviews.
+            </Link>
+          </div>
+        </>
+        :
+        <div className="m-3">
+          <p className="lead">
+            Currently there are no reviews for this book
+          </p>
+        </div>
+      }
+    </div>
+  </div>
   );
 };
