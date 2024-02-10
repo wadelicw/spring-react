@@ -25,10 +25,8 @@ public class BookController {
 
     @GetMapping("/secure/currentloans/count")
     public int currentLoansCount(@RequestHeader(value = "Authorization") String token) {
-        System.out.println("token: " + token);
-        return 100;
-        // String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
-        // return bookService.currentLoansCount(userEmail);
+        String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
+        return bookService.currentLoansCount(userEmail);
     }
 
     @PutMapping("/secure/checkout")

@@ -7,6 +7,7 @@
 - Server side + client side rendering
 - ReactJS + TS
 - Bootstrap 5
+- JWT for protecting backend api
 
 **Backend Features:**
 - Hibernate/JPA CRUD

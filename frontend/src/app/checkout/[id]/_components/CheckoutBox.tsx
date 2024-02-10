@@ -11,17 +11,16 @@ export const CheckoutBox: FC<{ book: Book }> = (props) => {
   const [isCheckedOut, setIsCheckedOut] = useState(false);
   const [currentLoansCount, setCurrentLoansCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const { data: session } = useSession()
+  const { data: session } = useSession();
 
   useEffect(() => {
     const fetchUserCurrentLoansCount = async () => {
-      console.log("session", session);
       if (session) {
         const url = process.env.apiEndpoint + `/books/secure/currentloans/count`;
         const requestOptions = {
           method: "GET",
           headers: {
-            // Authorization: `Bearer ${123}`,
+            "Authorization": `Bearer ${session.user.accessToken}`,
             "Content-Type": "application/json"
           }
         };

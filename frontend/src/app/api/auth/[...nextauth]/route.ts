@@ -1,3 +1,4 @@
+import { signJwtAccessToken } from "@/utils/jwt";
 import prisma from "@/utils/prisma";
 import { compare } from "bcrypt";
 import NextAuth from "next-auth";
@@ -18,24 +19,41 @@ const handler = NextAuth({
         password: {}
       },
       async authorize(credentials, req): Promise<any> {
-        const user = await prisma.user.findFirst({
-          where: {
-            email: credentials?.email,
-          },
-        });
-        if (user) {
-          const passwordCompare = await compare(credentials?.password || "", user.password);
-          if (passwordCompare) {
-            return {
-              id: user.id,
-              email: user.email,
-            };
+        try {
+          const user = await prisma.user.findFirst({
+            where: {
+              email: credentials?.email,
+            },
+          });
+          if (user) {
+            const { password, ...userWithoutPass } = user;
+            const passwordCompare = await compare(credentials?.password || "", password);
+            if (passwordCompare) {
+
+              const accessToken = signJwtAccessToken(userWithoutPass);
+              return {
+                id: userWithoutPass.id,
+                email: userWithoutPass.email,
+                accessToken
+              };
+            }
           }
+          return null;
+        } catch (error) {
+          console.error(error)
         }
-        return null
       }
     })
-  ]
+  ],
+  callbacks: {
+    async jwt({ token, user }) {
+      return { ...token, ...user };
+    },
+    async session({ session, token }) {
+      session.user = token as any;
+      return session;
+    },
+  },
 });
 
 export { handler as GET, handler as POST };
