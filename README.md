@@ -14,4 +14,4 @@
 - REST CRUD
 - Spring Data JPA
 - Spring Security
-- JWT Auth, Roles, Login
+- JWT Auth, Roles('ADMIN'/'USER')
