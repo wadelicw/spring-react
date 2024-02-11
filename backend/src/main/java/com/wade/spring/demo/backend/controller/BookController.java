@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wade.spring.demo.backend.entity.Book;
 import com.wade.spring.demo.backend.service.BookService;
-import com.wade.spring.demo.backend.utils.ExtractJWT;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -25,14 +24,14 @@ public class BookController {
 
     @GetMapping("/secure/currentloans/count")
     public int currentLoansCount(@RequestHeader(value = "Authorization") String token) {
-        String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
+        String userEmail = "test";
         return bookService.currentLoansCount(userEmail);
     }
 
     @PutMapping("/secure/checkout")
     public Book checkoutBook(@RequestHeader(value = "Authorization") String token,
             @RequestParam Long bookId) throws Exception {
-        String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
+        String userEmail = "test";
         return bookService.checkoutBook(userEmail, bookId);
     }
 

@@ -15,6 +15,7 @@ export const CheckoutBox: FC<{ book: Book }> = (props) => {
 
   useEffect(() => {
     const fetchUserCurrentLoansCount = async () => {
+      console.log(session)
       if (session) {
         const url = process.env.apiEndpoint + `/books/secure/currentloans/count`;
         const requestOptions = {

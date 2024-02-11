@@ -14,3 +14,4 @@
 - REST CRUD
 - Spring Data JPA
 - Spring Security
+- JWT Auth, Roles, Login

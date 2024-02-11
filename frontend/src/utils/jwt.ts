@@ -5,19 +5,18 @@ interface SignOption {
 }
 
 const DEFAULT_SIGN_OPTION: SignOption = {
-  expiresIn: "1h",
+  expiresIn: "24h",
 };
 
 export function signJwtAccessToken(payload: JwtPayload, options: SignOption = DEFAULT_SIGN_OPTION) {
-  const secret_key = process.env.JWT_SECRET;
-  console.log(payload)
+  const secret_key = Buffer.from(process.env.JWT_SECRET!, "base64");
   const token = jwt.sign(payload, secret_key!, options);
   return token;
 }
 
 export function verifyJwt(token: string) {
   try {
-    const secret_key = process.env.JWT_SECRET;
+    const secret_key = Buffer.from(process.env.JWT_SECRET!, "base64");
     const decoded = jwt.verify(token, secret_key!);
     return decoded as JwtPayload;
   } catch (error) {
