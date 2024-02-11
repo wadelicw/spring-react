@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "jwt.secret.token",
+  "type": "java.lang.String",
+  "description": "A JWT secret token use on both frontend and backend"
+}]}
