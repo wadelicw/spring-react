@@ -3,7 +3,6 @@ package com.wade.spring.demo.backend.controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,14 +22,12 @@ public class BookController {
     }
 
     @GetMapping("/secure/currentloans/count")
-    public int currentLoansCount(@RequestHeader(value = "Authorization") String token) {
-        String userEmail = "test";
-        return bookService.currentLoansCount(userEmail);
+    public int currentLoansCount() {
+        return 100;
     }
 
     @PutMapping("/secure/checkout")
-    public Book checkoutBook(@RequestHeader(value = "Authorization") String token,
-            @RequestParam Long bookId) throws Exception {
+    public Book checkoutBook(@RequestParam Long bookId) throws Exception {
         String userEmail = "test";
         return bookService.checkoutBook(userEmail, bookId);
     }
