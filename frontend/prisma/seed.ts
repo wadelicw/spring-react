@@ -1,9 +1,11 @@
 import { Prisma, PrismaClient } from '@prisma/client';
+import { hash } from "bcrypt";
 import database from "./database.json";
 
 const prisma = new PrismaClient();
 
 const bookData: Prisma.bookCreateInput[] = database.book;
+const userData: Prisma.userCreateInput[] = database.user;
 
 async function main() {
   console.log(`Start seeding ...`)
@@ -12,6 +14,18 @@ async function main() {
       data: b,
     })
     console.log(`Created book with id: ${book.id}`);
+  }
+  for (const u of userData) {
+    const hashedPassword = await hash(u.password, 10);
+    const user = await prisma.user.create({
+      data: {
+        "email": u.email,
+        "password": hashedPassword,
+        "role": u.role
+
+      },
+    })
+    console.log(`Created user with id: ${user.id}`);
   }
   console.log(`Seeding finished.`);
 }

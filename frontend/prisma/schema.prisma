@@ -57,7 +57,8 @@ model review {
 }
 
 model user {
-  id       Int    @id @default(autoincrement()) @db.UnsignedInt
-  email    String @unique
-  password String @db.Text
+  id       Int     @id @default(autoincrement()) @db.UnsignedInt
+  email    String  @unique
+  password String  @db.Text
+  role     String?
 }

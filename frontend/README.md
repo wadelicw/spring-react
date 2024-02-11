@@ -34,7 +34,7 @@ run the following command to create your Mysql database file. This also creates 
 npx prisma migrate dev --name init
 ```
 
-add demo data into the tables
+add demo data into the tables if necessary
 ```
 npx prisma db seed
 ```

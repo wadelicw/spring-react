@@ -110,5 +110,17 @@
       "category": "BE",
       "img": "book-6.png"
     }
+  ],
+  "user": [
+    {
+      "email": "admin@admin",
+      "password": "admin",
+      "role": "ADMIN"
+    },
+    {
+      "email": "user@user",
+      "password": "user",
+      "role": "USER"
+    }
   ]
 }
