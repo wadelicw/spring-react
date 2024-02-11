@@ -1,5 +1,17 @@
 # Fullstack Frontend Example with Next.js (REST API)
 
+## NextJS, The React Framework
+Next.js is a React framework for building full-stack web applications. You use React Components to build user interfaces, and Next.js for additional features and optimizations.
+
+## Prisma Database
+All db schema was predefined, just a single command can create all the table that we needed. With the seeding feature, it will insert all the test data we will use in the project, which is very convenient for project development.
+
+We can also user prisma client in frontend to crud the database.
+
+## Next Authentication
+I use NextAuth.js for authentication, which designed to work with any OAuth service, it supports OAuth 1.0, 1.0A, 2.0 and OpenID Connect.
+The JWT was stored in the session of NextAuth, which can be retrieved in components for Bearer Authorization, in order to connect to backend api.
+
 ## Getting started
 
 ### 1. Configure your local environment
