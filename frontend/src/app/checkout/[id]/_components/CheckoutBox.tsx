@@ -31,10 +31,13 @@ export const CheckoutBox: FC<{ book: Book }> = (props) => {
         }
         const currentLoansCountResponseJson = await currentLoansCountResponse.json();
         setCurrentLoansCount(currentLoansCountResponseJson);
+        setIsLoading(false);
       }
-      setIsLoading(false);
     }
-    fetchUserCurrentLoansCount().catch(() => setIsLoading(false));
+    fetchUserCurrentLoansCount().catch((error) => {
+      window.alert(error.message);
+      setIsLoading(false);
+    });
   }, [session, isCheckedOut]);
 
   if (isLoading) {
@@ -44,19 +47,21 @@ export const CheckoutBox: FC<{ book: Book }> = (props) => {
   }
 
   async function checkoutBook() {
-    const url = process.env.apiEndpoint + `/books/secure/checkout/?bookId=${props.book?.id}`;
-    const requestOptions = {
-      method: "PUT",
-      headers: {
-        // Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
-        "Content-Type": "application/json"
+    if (session) {
+      const url = process.env.apiEndpoint + `/books/secure/checkout?bookId=${props.book?.id}`;
+      const requestOptions = {
+        method: "PUT",
+        headers: {
+          "Authorization": `Bearer ${session.user.accessToken}`,
+          "Content-Type": "application/json"
+        }
+      };
+      const checkoutResponse = await fetch(url, requestOptions);
+      if (!checkoutResponse.ok) {
+        throw new Error("Something went wrong!");
       }
-    };
-    const checkoutResponse = await fetch(url, requestOptions);
-    if (!checkoutResponse.ok) {
-      throw new Error("Something went wrong!");
+      setIsCheckedOut(true);
     }
-    setIsCheckedOut(true);
   }
 
   const ButtonRender: FC<{}> = () => {

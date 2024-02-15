@@ -1,5 +1,7 @@
 package com.wade.spring.demo.backend.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,14 +24,15 @@ public class BookController {
     }
 
     @GetMapping("/secure/currentloans/count")
-    public int currentLoansCount() {
-        return 100;
+    public int currentLoansCount(@AuthenticationPrincipal UserDetails userDetails) {
+        return bookService.currentLoansCount(userDetails.getUsername());
+
     }
 
     @PutMapping("/secure/checkout")
-    public Book checkoutBook(@RequestParam Long bookId) throws Exception {
-        String userEmail = "test";
-        return bookService.checkoutBook(userEmail, bookId);
+    public Book checkoutBook(@AuthenticationPrincipal UserDetails userDetails, @RequestParam Long bookId)
+            throws Exception {
+        return bookService.checkoutBook(userDetails.getUsername(), bookId);
     }
 
 }

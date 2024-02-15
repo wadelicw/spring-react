@@ -32,7 +32,7 @@ const Checkout: FC<{ params: { id: string } }> = (props) => {
             <SpinnerLoading />
         )
     }
-
+    
     return (
         <div className="container">
             <div className="row mt-5">
