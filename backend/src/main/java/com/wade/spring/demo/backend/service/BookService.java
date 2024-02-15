@@ -6,4 +6,6 @@ public interface BookService {
     Book checkoutBook(String userEmail, Long bookId) throws Exception;
 
     int currentLoansCount(String userEmail);
+
+    Boolean checkoutBookByUser(String userEmail, Long bookId);
 }

@@ -58,4 +58,14 @@ public class BookServiceImpl implements BookService {
         return checkoutRepository.findBooksByUserEmail(userEmail).size();
     }
 
+    @Override
+    public Boolean checkoutBookByUser(String userEmail, Long bookId) {
+        Checkout validateCheckout = checkoutRepository.findByUserEmailAndBookId(userEmail, bookId);
+        if (validateCheckout != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

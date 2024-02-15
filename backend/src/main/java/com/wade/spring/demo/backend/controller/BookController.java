@@ -2,7 +2,6 @@ package com.wade.spring.demo.backend.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wade.spring.demo.backend.entity.Book;
 import com.wade.spring.demo.backend.service.BookService;
 
-@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
@@ -33,6 +31,12 @@ public class BookController {
     public Book checkoutBook(@AuthenticationPrincipal UserDetails userDetails, @RequestParam Long bookId)
             throws Exception {
         return bookService.checkoutBook(userDetails.getUsername(), bookId);
+    }
+
+    @GetMapping("/secure/ischeckedout/byuser")
+    public Boolean checkoutBookByUser(@AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam Long bookId) {
+        return bookService.checkoutBookByUser(userDetails.getUsername(), bookId);
     }
 
 }

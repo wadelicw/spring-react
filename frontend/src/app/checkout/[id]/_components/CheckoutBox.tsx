@@ -14,8 +14,31 @@ export const CheckoutBox: FC<{ book: Book }> = (props) => {
   const { data: session } = useSession();
 
   useEffect(() => {
+    const fetchUserCheckedOutBook = async () => {
+      if (session) {
+        const url = `http://localhost:8080/api/books/secure/ischeckedout/byuser?bookId=${props.book?.id}`;
+        const requestOptions = {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${session.user.accessToken}`,
+            "Content-Type": "application/json"
+          }
+        };
+        const bookCheckedOut = await fetch(url, requestOptions);
+
+        if (!bookCheckedOut.ok) {
+          throw new Error("Something went wrong!");
+        }
+
+        const bookCheckedOutResponseJson = await bookCheckedOut.json();
+        setIsCheckedOut(bookCheckedOutResponseJson);
+      }
+    }
+    fetchUserCheckedOutBook();
+  }, []);
+
+  useEffect(() => {
     const fetchUserCurrentLoansCount = async () => {
-      console.log(session)
       if (session) {
         const url = process.env.apiEndpoint + `/books/secure/currentloans/count`;
         const requestOptions = {
