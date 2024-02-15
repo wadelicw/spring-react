@@ -1,6 +1,8 @@
+"use client";
+import { SpinnerLoading } from "@/components/SpinnerLoading";
 import { ReviewRequest } from "@/types/reviewRequest";
 import { useSession } from "next-auth/react";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { StarsReview } from "./StarsReview";
 
 export const LeaveReview: FC<{ bookId: number }> = (props) => {
@@ -9,7 +11,40 @@ export const LeaveReview: FC<{ bookId: number }> = (props) => {
   const [displayInput, setDisplayInput] = useState(false);
   const [reviewDescription, setReviewDescription] = useState("");
   const [isReviewLeft, setIsReviewLeft] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { data: session } = useSession();
+
+  useEffect(() => {
+    const fetchUserReviewedBook = async () => {
+      if (session) {
+        const url = `http://localhost:8080/api/reviews/secure/user/book?bookId=${props.bookId}`;
+        const requestOptions = {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${session.user.accessToken}`,
+            "Content-Type": "application/json"
+          }
+        };
+        const bookReviewed = await fetch(url, requestOptions);
+
+        if (!bookReviewed.ok) {
+          throw new Error("Something went wrong!");
+        }
+
+        const bookReviewedResponseJson = await bookReviewed.json();
+        setIsReviewLeft(bookReviewedResponseJson);
+        setIsLoading(false);
+      }
+    }
+    fetchUserReviewedBook();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <SpinnerLoading />
+    );
+  }
+
 
   function starValue(value: number) {
     setStarInput(value);
