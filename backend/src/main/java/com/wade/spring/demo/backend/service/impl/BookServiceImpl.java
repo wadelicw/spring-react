@@ -20,13 +20,13 @@ public class BookServiceImpl implements BookService {
 
     private BookRepository bookRepository;
     private CheckoutRepository checkoutRepository;
-    private HistoryRepository historyRepository;
+    // private HistoryRepository historyRepository;
 
     public BookServiceImpl(BookRepository bookRepository, CheckoutRepository checkoutRepository,
             HistoryRepository historyRepository) {
         this.bookRepository = bookRepository;
         this.checkoutRepository = checkoutRepository;
-        this.historyRepository = historyRepository;
+        // this.historyRepository = historyRepository;
     }
 
     @Override
