@@ -1,4 +1,5 @@
 import { ReviewRequest } from "@/types/reviewRequest";
+import { useSession } from "next-auth/react";
 import { FC, useState } from "react";
 import { StarsReview } from "./StarsReview";
 
@@ -8,6 +9,7 @@ export const LeaveReview: FC<{ bookId: number }> = (props) => {
   const [displayInput, setDisplayInput] = useState(false);
   const [reviewDescription, setReviewDescription] = useState("");
   const [isReviewLeft, setIsReviewLeft] = useState(false);
+  const { data: session } = useSession();
 
   function starValue(value: number) {
     setStarInput(value);
@@ -15,26 +17,28 @@ export const LeaveReview: FC<{ bookId: number }> = (props) => {
   }
 
   const submitReview = async (starInput: number, reviewDescription: string) => {
-    let bookId: number = 0;
-    if (props.bookId) {
-      bookId = props.bookId;
-    }
+    if (session) {
+      let bookId: number = 0;
+      if (props.bookId) {
+        bookId = props.bookId;
+      }
 
-    const reviewRequestModel: ReviewRequest = { rating: starInput, bookId, reviewDescription };
-    const url = process.env.apiEndpoint + "/reviews/secure";
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        // Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(reviewRequestModel)
-    };
-    const returnResponse = await fetch(url, requestOptions);
-    if (!returnResponse.ok) {
-      throw new Error("Something went wrong!");
+      const reviewRequestModel: ReviewRequest = { rating: starInput, bookId, reviewDescription };
+      const url = process.env.apiEndpoint + "/reviews/secure";
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${session.user.accessToken}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(reviewRequestModel)
+      };
+      const returnResponse = await fetch(url, requestOptions);
+      if (!returnResponse.ok) {
+        throw new Error("Something went wrong!");
+      }
+      setIsReviewLeft(true);
     }
-    setIsReviewLeft(true);
   }
 
 
