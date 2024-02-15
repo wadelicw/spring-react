@@ -1,6 +1,6 @@
 import { Review } from "@/types/review";
 import { FC } from "react";
-import { StarsReview } from "./StarsReview";
+import { StarsReview } from "../app/checkout/[id]/_components/StarsReview";
 
 export const ReviewItem: FC<{ review: Review }> = (props) => {
 

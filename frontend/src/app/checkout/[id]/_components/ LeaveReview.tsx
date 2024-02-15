@@ -17,7 +17,7 @@ export const LeaveReview: FC<{ bookId: number }> = (props) => {
   useEffect(() => {
     const fetchUserReviewedBook = async () => {
       if (session) {
-        const url = `http://localhost:8080/api/reviews/secure/user/book?bookId=${props.bookId}`;
+        const url = process.env.apiEndpoint + `/reviews/secure/user/book?bookId=${props.bookId}`;
         const requestOptions = {
           method: "GET",
           headers: {

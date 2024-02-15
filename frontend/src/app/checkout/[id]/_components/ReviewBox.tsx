@@ -1,9 +1,9 @@
 "use client";
+import { ReviewItem } from "@/components/ReviewItem";
 import { SpinnerLoading } from "@/components/SpinnerLoading";
 import { Review } from "@/types/review";
 import Link from "next/link";
 import { FC, useEffect, useState } from "react";
-import { ReviewItem } from "./ReviewItem";
 import { StarsReview } from "./StarsReview";
 
 export const ReviewBox: FC<{ id: string }> = (props) => {
@@ -70,7 +70,7 @@ export const ReviewBox: FC<{ id: string }> = (props) => {
             ))}
 
             <div className="m-3">
-              <Link type="button" className="btn main-color btn-md text-white"
+              <Link type="button" className="btn main-color btn-md btn-success"
                 href={`/book-review/${props.id}`}>
                 Reach all reviews.
               </Link>

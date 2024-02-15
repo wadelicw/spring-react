@@ -16,7 +16,7 @@ export const CheckoutBox: FC<{ book: Book }> = (props) => {
   useEffect(() => {
     const fetchUserCheckedOutBook = async () => {
       if (session) {
-        const url = `http://localhost:8080/api/books/secure/ischeckedout/byuser?bookId=${props.book?.id}`;
+        const url = process.env.apiEndpoint + `/books/secure/ischeckedout/byuser?bookId=${props.book?.id}`;
         const requestOptions = {
           method: "GET",
           headers: {
