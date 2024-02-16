@@ -1,6 +1,6 @@
 import { Book } from "./book";
 
 export interface ShelfCurrentLoans {
-    book: Book;
-    daysLeft: number;
+  book: Book;
+  daysLeft: number;
 }
