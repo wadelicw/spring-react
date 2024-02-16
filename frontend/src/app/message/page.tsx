@@ -3,7 +3,7 @@ import { FC, useState } from "react";
 import { Messages } from "./_components/Messages";
 import { PostNewMessage } from "./_components/PostNewMessage";
 
-const Message: FC<{}> = async () => {
+const Message: FC<{}> = () => {
 
   const [messagesClick, setMessagesClick] = useState(false);
 

@@ -1,8 +1,9 @@
+"use client";
 import { Message } from "@/types/message";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { FC, useState } from "react";
 
-export const PostNewMessage = () => {
+export const PostNewMessage: FC<{}> = () => {
 
   const [title, setTitle] = useState("");
   const [question, setQuestion] = useState("");
@@ -41,7 +42,7 @@ export const PostNewMessage = () => {
   return (
     <div className="card mt-3">
       <div className="card-header">
-        Ask question to Luv 2 Read Admin
+        Ask question to Admin
       </div>
       <div className="card-body">
         <form method="POST">

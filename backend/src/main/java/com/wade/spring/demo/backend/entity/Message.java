@@ -43,4 +43,5 @@ public class Message {
 
     @Column(name = "closed")
     private boolean closed;
+    
 }

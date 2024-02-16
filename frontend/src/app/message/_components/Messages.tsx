@@ -34,6 +34,7 @@ export const Messages: FC<{}> = () => {
           throw new Error("Something went wrong!");
         }
         const messagesResponseJson = await messagesResponse.json();
+        console.log(messagesResponseJson);
         setMessages(messagesResponseJson._embedded.messages);
         setTotalPages(messagesResponseJson.page.totalPages);
       }
@@ -58,10 +59,10 @@ export const Messages: FC<{}> = () => {
       {messages.length > 0 ?
         <>
           <h5>Current Q/A: </h5>
-          {messages.map(message => (
-            <div key={message.id}>
+          {messages.map((message, index) => (
+            <div key={index}>
               <div className="card mt-2 shadow p-3 bg-body rounded">
-                <h5>Case #{message.id}: {message.title}</h5>
+                <h5>Case #{index + 1}: {message.title}</h5>
                 <h6>{message.userEmail}</h6>
                 <p>{message.question}</p>
                 <hr />
