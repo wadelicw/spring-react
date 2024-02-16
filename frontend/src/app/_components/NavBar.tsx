@@ -1,10 +1,12 @@
-import { getServerSession } from "next-auth";
+"use client";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { FC } from "react";
 import { Logout } from "./Logout";
 
-export const NavBar: FC<{}> = async () => {
-  const session = await getServerSession();
+export const NavBar: FC<{}> = () => {
+  const { data: session } = useSession();
+  console.log(session);
   return (
     <nav className="navbar navbar-expand-lg navbar-dark main-color py-3">
       <div className="container-fluid">
@@ -24,7 +26,16 @@ export const NavBar: FC<{}> = async () => {
             <li className="nav-item">
               <Link className="nav-link" href="/search">Search Books</Link>
             </li>
-
+            {session &&
+              <li className="nav-item">
+                <Link className="nav-link" href="/shelf">Shelf</Link>
+              </li>
+            }
+            {session && session.user.role === "ADMIN" &&
+              <li className="nav-item">
+                <Link className="nav-link" href="/admin">Admin</Link>
+              </li>
+            }
           </ul>
           <ul className="navbar-nav ms-auto">
             <li className="nav-item m-1">

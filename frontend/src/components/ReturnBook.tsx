@@ -16,7 +16,7 @@ export const ReturnBook: FC<{ book: Book }> = (props) => {
           />
           :
           <Image
-            src={"new-book-1.png"}
+            src={"/images/books/new-book-1.png"}
             width="151"
             height="233"
             alt="book"

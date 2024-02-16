@@ -26,15 +26,15 @@ const handler = NextAuth({
             },
           });
           if (user) {
-            const { password, id, email } = user;
+            const { password, id, email, role } = user;
             const passwordCompare = await compare(credentials?.password || "", password);
             if (passwordCompare) {
-
+              const sub = email;
               const accessToken = signJwtAccessToken({
-                id, email, sub: email
+                id, email, sub
               });
               return {
-                id, email, accessToken
+                id, email, accessToken, role, sub
               };
             }
           }
