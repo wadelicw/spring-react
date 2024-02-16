@@ -10,7 +10,6 @@ import { FC, useEffect, useState } from "react";
 export const HistoryPage: FC<{}> = () => {
 
   const [isLoadingHistory, setIsLoadingHistory] = useState(true);
-  const [httpError, setHttpError] = useState(null);
   const { data: session } = useSession();
 
   // Histories
