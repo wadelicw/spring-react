@@ -1,0 +1,68 @@
+version: "3"
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    restart: always
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_DATABASE: SpringReactDemo
+
+  backend:
+    build: ./backend
+    container_name: backend
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k" # 200kb
+        max-file: "2"
+    environment:
+      MYSQLDB_URL: jdbc:mysql://mysql:3306/SpringReactDemo
+      MYSQLDB_USER: admin
+      MYSQLDB_PASSWORD: admin
+      JWT_SECRET: cyNPKFN0z8MOX5N5OyTqG8Z5M0z/WwIas5BsmDphkJY=
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    restart: unless-stopped
+    command: sh -c "npx prisma migrate dev --name init && npx prisma db seed && npm start"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k" # 200kb
+        max-file: "2"
+    ulimits:
+      core: 1024
+    depends_on:
+      - mysql
+      - backend
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    depends_on:
+      - frontend
+      - backend
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+
+volumes:
+  mysql-data:
+
+networks:
+  default:
+    external:
+      name: nginx

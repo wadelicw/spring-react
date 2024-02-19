@@ -1,7 +1,7 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { AddNewBook } from "./_components/AddNewBook";
 import { AdminMessages } from "./_components/AdminMessages";
 import { ChangeQuantityOfBooks } from "./_components/ChangeQuantityOfBooks";
@@ -29,9 +29,13 @@ const Admin: FC<{}> = () => {
     setMessagesClick(true);
   }
 
-  if (!session || session.user.role !== "ADMIN") {
-    router.push("/");
-  }
+  useEffect(() => {
+    if (!session || session.user.role !== "ADMIN") {
+      router.push("/");
+    }
+  }, [session]);
+
+
 
   return (
     <div className="container">

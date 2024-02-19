@@ -17,3 +17,12 @@
 - Spring Data JPA
 - Spring Security
 - JWT Auth, Roles('ADMIN'/'USER')
+
+**Docker Features:**
+- Nginx
+- Demo Mysql with prisma seeding
+- One cmd to deploy the whole demo project
+
+```
+make
+```

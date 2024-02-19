@@ -38,3 +38,11 @@ after setting the local env, run the project by:
 ```
 mvn spring-boot:run
 ```
+
+## Local Docker Test
+```
+docker build -t test1 .
+```
+```
+docker run test1
+```
