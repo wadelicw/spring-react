@@ -26,3 +26,4 @@
 ```
 make
 ```
+###  After running the makefile, the website will be available at http://localhost. The docker-compose will create the mysql container first, then create the frontend container with the prisma command to create the tables and the test details based on the prisma schema. The last two container will be the backend container and nginx which will act as a reverse proxy and security layer for the project.
