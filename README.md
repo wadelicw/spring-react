@@ -10,6 +10,7 @@
 - ReactJS + TS
 - Bootstrap 5
 - JWT for protecting backend api
+- ESLint + Airbnb style + Husky
 
 **Backend Features:**
 - Hibernate/JPA CRUD
