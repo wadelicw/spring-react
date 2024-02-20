@@ -1,22 +1,23 @@
-"use client"
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { FC, FormEvent } from "react";
+'use client';
+
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { FC, FormEvent } from 'react';
 
 export const RegisterForm: FC<{}> = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const response = await fetch("/api/auth/register", {
-      method: "POST",
+    const response = await fetch('/api/auth/register', {
+      method: 'POST',
       body: JSON.stringify({
-        email: formData.get("email"),
-        password: formData.get("password")
-      })
+        email: formData.get('email'),
+        password: formData.get('password'),
+      }),
     });
     if (response.ok) {
-      window.alert("success to register, please login");
-      redirect("/login");
+      window.alert('success to register, please login');
+      redirect('/login');
     }
   };
   return (
@@ -68,6 +69,6 @@ export const RegisterForm: FC<{}> = () => {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };

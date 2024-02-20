@@ -1,15 +1,14 @@
-import { AddBookRequest } from "@/types/addBookRequest";
-import { useSession } from "next-auth/react";
-import { FC, useState } from "react";
+import { useSession } from 'next-auth/react';
+import { FC, useState } from 'react';
+import { AddBookRequest } from '@/types/addBookRequest';
 
 export const AddNewBook: FC<{}> = () => {
-
   // New Book
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [description, setDescription] = useState('');
   const [copies, setCopies] = useState(0);
-  const [category, setCategory] = useState("Category");
+  const [category, setCategory] = useState('Category');
   const [selectedImage, setSelectedImage] = useState<any>(null);
   const { data: session } = useSession();
 
@@ -28,40 +27,42 @@ export const AddNewBook: FC<{}> = () => {
   }
 
   function getBase64(file: any) {
-    let reader = new FileReader();
+    const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function () {
       setSelectedImage(reader.result);
     };
     reader.onerror = function (error) {
-      console.log("Error", error);
-    }
+      console.log('Error', error);
+    };
   }
 
   async function submitNewBook() {
-    const url = process.env.apiEndpoint + `/admin/secure/add/book`;
-    if (session && title !== "" && author !== "" && category !== "Category"
-      && description !== "" && copies >= 0) {
-      const book: AddBookRequest = { title, author, description, copies, category };
+    const url = `${process.env.apiEndpoint}/admin/secure/add/book`;
+    if (session && title !== '' && author !== '' && category !== 'Category'
+      && description !== '' && copies >= 0) {
+      const book: AddBookRequest = {
+        title, author, description, copies, category,
+      };
       book.img = selectedImage;
       const requestOptions = {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Authorization": `Bearer ${session.user.accessToken}`,
-          "Content-Type": "application/json"
+          Authorization: `Bearer ${session.user.accessToken}`,
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(book)
+        body: JSON.stringify(book),
       };
 
       const submitNewBookResponse = await fetch(url, requestOptions);
       if (!submitNewBookResponse.ok) {
-        throw new Error("Something went wrong!");
+        throw new Error('Something went wrong!');
       }
-      setTitle("");
-      setAuthor("");
-      setDescription("");
+      setTitle('');
+      setAuthor('');
+      setDescription('');
       setCopies(0);
-      setCategory("Category");
+      setCategory('Category');
       setSelectedImage(null);
       setDisplayWarning(false);
       setDisplaySuccess(true);
@@ -73,16 +74,18 @@ export const AddNewBook: FC<{}> = () => {
 
   return (
     <div className="container mt-5 mb-5">
-      {displaySuccess &&
+      {displaySuccess
+        && (
         <div className="alert alert-success" role="alert">
           Book added successfully
         </div>
-      }
-      {displayWarning &&
+        )}
+      {displayWarning
+        && (
         <div className="alert alert-danger" role="alert">
           All fields must be filled out
         </div>
-      }
+        )}
       <div className="card">
         <div className="card-header">
           Add a new book
@@ -92,39 +95,67 @@ export const AddNewBook: FC<{}> = () => {
             <div className="row">
               <div className="col-md-6 mb-3">
                 <label className="form-label">Title</label>
-                <input type="text" className="form-control" name="title" required
-                  onChange={e => setTitle(e.target.value)} value={title} />
+                <input
+                  type="text"
+                  className="form-control"
+                  name="title"
+                  required
+                  onChange={(e) => setTitle(e.target.value)}
+                  value={title}
+                />
               </div>
               <div className="col-md-3 mb-3">
                 <label className="form-label"> Author </label>
-                <input type="text" className="form-control" name="author" required
-                  onChange={e => setAuthor(e.target.value)} value={author} />
+                <input
+                  type="text"
+                  className="form-control"
+                  name="author"
+                  required
+                  onChange={(e) => setAuthor(e.target.value)}
+                  value={author}
+                />
               </div>
               <div className="col-md-3 mb-3">
                 <label className="form-label"> Category</label>
-                <button className="form-control btn btn-secondary dropdown-toggle" type="button"
-                  id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                <button
+                  className="form-control btn btn-secondary dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton1"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
                   {category}
                 </button>
                 <ul id="addNewBookId" className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <li><a onClick={() => categoryField("FE")} className="dropdown-item">Front End</a></li>
-                  <li><a onClick={() => categoryField("BE")} className="dropdown-item">Back End</a></li>
-                  <li><a onClick={() => categoryField("Data")} className="dropdown-item">Data</a></li>
-                  <li><a onClick={() => categoryField("DevOps")} className="dropdown-item">DevOps</a></li>
+                  <li><a onClick={() => categoryField('FE')} className="dropdown-item">Front End</a></li>
+                  <li><a onClick={() => categoryField('BE')} className="dropdown-item">Back End</a></li>
+                  <li><a onClick={() => categoryField('Data')} className="dropdown-item">Data</a></li>
+                  <li><a onClick={() => categoryField('DevOps')} className="dropdown-item">DevOps</a></li>
                 </ul>
               </div>
             </div>
             <div className="col-md-12 mb-3">
               <label className="form-label">Description</label>
-              <textarea className="form-control" id="exampleFormControlTextarea1" rows={3}
-                onChange={e => setDescription(e.target.value)} value={description}></textarea>
+              <textarea
+                className="form-control"
+                id="exampleFormControlTextarea1"
+                rows={3}
+                onChange={(e) => setDescription(e.target.value)}
+                value={description}
+              />
             </div>
             <div className="col-md-3 mb-3">
               <label className="form-label">Copies</label>
-              <input type="number" className="form-control" name="Copies" required
-                onChange={e => setCopies(Number(e.target.value))} value={copies} />
+              <input
+                type="number"
+                className="form-control"
+                name="Copies"
+                required
+                onChange={(e) => setCopies(Number(e.target.value))}
+                value={copies}
+              />
             </div>
-            <input type="file" onChange={e => base64ConversionForImages(e)} />
+            <input type="file" onChange={(e) => base64ConversionForImages(e)} />
             <div>
               <button type="button" className="btn btn-primary mt-3" onClick={submitNewBook}>
                 Add Book
@@ -135,4 +166,4 @@ export const AddNewBook: FC<{}> = () => {
       </div>
     </div>
   );
-}
+};

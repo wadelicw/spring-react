@@ -1,6 +1,6 @@
-import prisma from "@/utils/prisma";
-import { hash } from "bcrypt";
-import { NextResponse } from "next/server";
+import { hash } from 'bcrypt';
+import { NextResponse } from 'next/server';
+import prisma from '@/utils/prisma';
 
 export async function POST(request: Request) {
   try {
@@ -10,11 +10,11 @@ export async function POST(request: Request) {
       data: {
         email,
         password: hashedPassword,
-        role: "USER"
-      }
+        role: 'USER',
+      },
     });
   } catch (error) {
     console.log({ error });
   }
-  return NextResponse.json({ message: "success" });
+  return NextResponse.json({ message: 'success' });
 }

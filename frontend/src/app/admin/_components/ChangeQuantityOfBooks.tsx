@@ -1,11 +1,10 @@
-import { Pagination } from "@/components/Pagination";
-import { SpinnerLoading } from "@/components/SpinnerLoading";
-import { Book } from "@/types/book";
-import { FC, useEffect, useState } from "react";
-import { ChangeQuantityOfBook } from "./ChangeQuantityOfBook";
+import { FC, useEffect, useState } from 'react';
+import { Pagination } from '@/components/Pagination';
+import { SpinnerLoading } from '@/components/SpinnerLoading';
+import { Book } from '@/types/book';
+import { ChangeQuantityOfBook } from './ChangeQuantityOfBook';
 
 export const ChangeQuantityOfBooks: FC<{}> = () => {
-
   const [books, setBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,12 +16,12 @@ export const ChangeQuantityOfBooks: FC<{}> = () => {
 
   useEffect(() => {
     const fetchBooks = async () => {
-      const baseUrl: string = process.env.apiEndpoint + `/books?page=${currentPage - 1}&size=${booksPerPage}`;
+      const baseUrl: string = `${process.env.apiEndpoint}/books?page=${currentPage - 1}&size=${booksPerPage}`;
 
       const response = await fetch(baseUrl);
 
       if (!response.ok) {
-        throw new Error("Something went wrong!");
+        throw new Error('Something went wrong!');
       }
 
       const responseJson = await response.json();
@@ -55,8 +54,8 @@ export const ChangeQuantityOfBooks: FC<{}> = () => {
 
   const indexOfLastBook: number = currentPage * booksPerPage;
   const indexOfFirstBook: number = indexOfLastBook - booksPerPage;
-  let lastItem = booksPerPage * currentPage <= totalAmountOfBooks ?
-    booksPerPage * currentPage : totalAmountOfBooks;
+  const lastItem = booksPerPage * currentPage <= totalAmountOfBooks
+    ? booksPerPage * currentPage : totalAmountOfBooks;
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
@@ -70,22 +69,34 @@ export const ChangeQuantityOfBooks: FC<{}> = () => {
 
   return (
     <div className="container mt-5">
-      {totalAmountOfBooks > 0 ?
-        <>
-          <div className="mt-3">
-            <h3>Number of results: ({totalAmountOfBooks})</h3>
-          </div>
-          <p>
-            {indexOfFirstBook + 1} to {lastItem} of {totalAmountOfBooks} items:
-          </p>
-          {books.map(book => (
-            <ChangeQuantityOfBook book={book} key={book.id} deleteBook={deleteBook} />
-          ))}
-        </>
-        :
-        <h5>Add a book before changing quantity</h5>
-      }
+      {totalAmountOfBooks > 0
+        ? (
+          <>
+            <div className="mt-3">
+              <h3>
+                Number of results: (
+                {totalAmountOfBooks}
+                )
+              </h3>
+            </div>
+            <p>
+              {indexOfFirstBook + 1}
+              {' '}
+              to
+              {lastItem}
+              {' '}
+              of
+              {totalAmountOfBooks}
+              {' '}
+              items:
+            </p>
+            {books.map((book) => (
+              <ChangeQuantityOfBook book={book} key={book.id} deleteBook={deleteBook} />
+            ))}
+          </>
+        )
+        : <h5>Add a book before changing quantity</h5>}
       {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />}
     </div>
   );
-}
+};

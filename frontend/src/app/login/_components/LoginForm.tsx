@@ -1,24 +1,25 @@
-"use client"
-import { signIn } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { FC, FormEvent } from "react";
+'use client';
+
+import { signIn } from 'next-auth/react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { FC, FormEvent } from 'react';
 
 export const LoginForm: FC<{}> = () => {
   const router = useRouter();
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const response = await signIn("credentials", {
-      email: formData.get("email"),
-      password: formData.get("password"),
-      redirect: false
+    const response = await signIn('credentials', {
+      email: formData.get('email'),
+      password: formData.get('password'),
+      redirect: false,
     });
     if (response?.ok) {
-      router.push("/");
+      router.push('/');
       router.refresh();
     } else {
-      window.alert("User name or password incorrect!");
+      window.alert('User name or password incorrect!');
     }
   };
   return (

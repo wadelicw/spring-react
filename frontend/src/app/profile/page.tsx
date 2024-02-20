@@ -1,5 +1,5 @@
-import { getServerSession } from "next-auth";
-import { FC } from "react";
+import { getServerSession } from 'next-auth';
+import { FC } from 'react';
 
 const Profile: FC<{}> = async () => {
   const session = await getServerSession();
@@ -9,6 +9,6 @@ const Profile: FC<{}> = async () => {
       <p>{JSON.stringify(session)}</p>
     </>
   );
-}
+};
 
 export default Profile;

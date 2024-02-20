@@ -1,29 +1,64 @@
 {
     "env": {
         "browser": true,
-        "es2021": true
+        "es6": true
     },
     "extends": [
         "airbnb",
         "airbnb/hooks",
-        "airbnb-typescript"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended",
+        "plugin:jsx-a11y/recommended",
+        "plugin:import/typescript"
     ],
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module",
-        "project": "./tsconfig.json"
+    "ecmaVersion": 2015,
+    "sourceType": "module",
+    "project": "**/tsconfig.json",
+    "ecmaFeatures": {
+        "tsx": true
+    }
     },
     "plugins": [
-        "react"
+        "import",
+        "jsx-a11y",
+        "react",
+        "react-hooks",
+        "@typescript-eslint"
     ],
     "rules": {
-        "quotes": [
-            "error",
-            "double"
+        "no-console": "error",
+        "react/require-default-props": "off",
+        "@typescript-eslint/no-explicit-any": "error",
+        "react/prop-types": "off", // If you're using TypeScript, prop-types are not needed
+        "@typescript-eslint/explicit-module-boundary-types": "off", // Allows you to skip explicit return types in TypeScript
+        "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }], // Only .tsx files for JSX
+        "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+            "js": "never",
+            "jsx": "never",
+            "ts": "never",
+            "tsx": "never"
+        }
         ],
-        "semi": [
-            "error",
-            "always"
-        ]
+        "import/no-unresolved": "off", // TypeScript takes care of this
+        "react/react-in-jsx-scope": "off", // Not needed in Next.js
+        "react/jsx-props-no-spreading": "off", // Allowing spread props
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "import/prefer-default-export": "off"
+    },
+    "settings": {
+        "import/parsers": {
+            "@typescript-eslint/parser": [".ts", ".tsx"]
+        },
+        "import/resolver": {
+            "typescript": {
+                "alwaysTryTypes": true // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`
+            }
+        }
     }
 }

@@ -1,22 +1,22 @@
-import { signJwtAccessToken } from "@/utils/jwt";
-import prisma from "@/utils/prisma";
-import { compare } from "bcrypt";
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import { compare } from 'bcrypt';
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import prisma from '@/utils/prisma';
+import { signJwtAccessToken } from '@/utils/jwt';
 
 const handler = NextAuth({
   session: {
-    strategy: "jwt"
+    strategy: 'jwt',
   },
   pages: {
-    signIn: "/login"
+    signIn: '/login',
   },
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
         email: {},
-        password: {}
+        password: {},
       },
       async authorize(credentials, req): Promise<any> {
         try {
@@ -26,24 +26,26 @@ const handler = NextAuth({
             },
           });
           if (user) {
-            const { password, id, email, role } = user;
-            const passwordCompare = await compare(credentials?.password || "", password);
+            const {
+              password, id, email, role,
+            } = user;
+            const passwordCompare = await compare(credentials?.password || '', password);
             if (passwordCompare) {
               const sub = email;
               const accessToken = signJwtAccessToken({
-                id, email, sub
+                id, email, sub,
               });
               return {
-                id, email, accessToken, role, sub
+                id, email, accessToken, role, sub,
               };
             }
           }
           return null;
         } catch (error) {
-          console.error(error)
+          console.error(error);
         }
-      }
-    })
+      },
+    }),
   ],
   callbacks: {
     async jwt({ token, user }) {

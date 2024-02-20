@@ -1,12 +1,12 @@
-"use client";
-import { Pagination } from "@/components/Pagination";
-import { ReviewItem } from "@/components/ReviewItem";
-import { SpinnerLoading } from "@/components/SpinnerLoading";
-import { Review } from "@/types/review";
-import { FC, useEffect, useState } from "react";
+'use client';
+
+import { FC, useEffect, useState } from 'react';
+import { Pagination } from '@/components/Pagination';
+import { ReviewItem } from '@/components/ReviewItem';
+import { SpinnerLoading } from '@/components/SpinnerLoading';
+import { Review } from '@/types/review';
 
 const BookReview: FC<{ params: { id: string } }> = (props) => {
-
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState(null);
@@ -19,13 +19,12 @@ const BookReview: FC<{ params: { id: string } }> = (props) => {
 
   useEffect(() => {
     const fetchBookReviewsData = async () => {
-
-      const reviewUrl: string = process.env.apiEndpoint + `/reviews/search/findByBookId?bookId=${props.params.id}&page=${currentPage - 1}&size=${reviewsPerPage}`;
+      const reviewUrl: string = `${process.env.apiEndpoint}/reviews/search/findByBookId?bookId=${props.params.id}&page=${currentPage - 1}&size=${reviewsPerPage}`;
 
       const responseReviews = await fetch(reviewUrl);
 
       if (!responseReviews.ok) {
-        throw new Error("Something went wrong!");
+        throw new Error('Something went wrong!');
       }
 
       const responseJsonReviews = await responseReviews.json();
@@ -54,13 +53,13 @@ const BookReview: FC<{ params: { id: string } }> = (props) => {
     fetchBookReviewsData().catch((error: any) => {
       setIsLoading(false);
       setHttpError(error.message);
-    })
+    });
   }, [currentPage]);
 
   if (isLoading) {
     return (
       <SpinnerLoading />
-    )
+    );
   }
 
   if (httpError) {
@@ -71,26 +70,36 @@ const BookReview: FC<{ params: { id: string } }> = (props) => {
     );
   }
 
-
   const indexOfLastReview: number = currentPage * reviewsPerPage;
   const indexOfFirstReview: number = indexOfLastReview - reviewsPerPage;
 
-  let lastItem = reviewsPerPage * currentPage <= totalAmountOfReviews ?
-    reviewsPerPage * currentPage : totalAmountOfReviews;
+  const lastItem = reviewsPerPage * currentPage <= totalAmountOfReviews
+    ? reviewsPerPage * currentPage : totalAmountOfReviews;
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
 
   return (
     <div className="container mt-5">
       <div>
-        <h3>Comments: ({reviews.length})</h3>
+        <h3>
+          Comments: (
+          {reviews.length}
+          )
+        </h3>
       </div>
       <p>
-        {indexOfFirstReview + 1} to {lastItem} of {totalAmountOfReviews} items:
+        {indexOfFirstReview + 1}
+        {' '}
+        to
+        {lastItem}
+        {' '}
+        of
+        {totalAmountOfReviews}
+        {' '}
+        items:
       </p>
       <div className="row">
-        {reviews.map(review => (
+        {reviews.map((review) => (
           <ReviewItem review={review} key={review.id} />
         ))}
       </div>
@@ -98,6 +107,6 @@ const BookReview: FC<{ params: { id: string } }> = (props) => {
       {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />}
     </div>
   );
-}
+};
 
 export default BookReview;

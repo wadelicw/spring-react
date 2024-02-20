@@ -1,12 +1,12 @@
-import "next-auth";
+import 'next-auth';
 
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session {
     user: {
       id: number;
       email: string;
       accessToken: string;
-      role: "USER" | "ADMIN";
+      role: 'USER' | 'ADMIN';
       sub: string;
     };
   }

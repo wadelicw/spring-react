@@ -1,10 +1,11 @@
-"use client";
-import { ReviewItem } from "@/components/ReviewItem";
-import { SpinnerLoading } from "@/components/SpinnerLoading";
-import { Review } from "@/types/review";
-import Link from "next/link";
-import { FC, useEffect, useState } from "react";
-import { StarsReview } from "./StarsReview";
+'use client';
+
+import Link from 'next/link';
+import { FC, useEffect, useState } from 'react';
+import { ReviewItem } from '@/components/ReviewItem';
+import { SpinnerLoading } from '@/components/SpinnerLoading';
+import { Review } from '@/types/review';
+import { StarsReview } from './StarsReview';
 
 export const ReviewBox: FC<{ id: string }> = (props) => {
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -14,7 +15,7 @@ export const ReviewBox: FC<{ id: string }> = (props) => {
   useEffect(() => {
     const fetchBookReviews = async () => {
       setIsLoading(true);
-      const reviewUrl: string = process.env.apiEndpoint + `/reviews/search/findByBookId?bookId=${props.id}`;
+      const reviewUrl: string = `${process.env.apiEndpoint}/reviews/search/findByBookId?bookId=${props.id}`;
       const responseReviews = await fetch(reviewUrl);
 
       if (!responseReviews.ok) {
@@ -35,7 +36,7 @@ export const ReviewBox: FC<{ id: string }> = (props) => {
           book_id: responseData[key].bookId,
           reviewDescription: responseData[key].reviewDescription,
         });
-        weightedStarReviews = weightedStarReviews + responseData[key].rating;
+        weightedStarReviews += responseData[key].rating;
       }
 
       if (loadedReviews) {
@@ -53,7 +54,7 @@ export const ReviewBox: FC<{ id: string }> = (props) => {
   if (isLoading) {
     return (
       <SpinnerLoading />
-    )
+    );
   }
 
   return (
@@ -63,26 +64,31 @@ export const ReviewBox: FC<{ id: string }> = (props) => {
         <StarsReview rating={totalStars} size={32} />
       </div>
       <div className="col-sm-10 col-md-10">
-        {reviews.length > 0 ?
-          <>
-            {reviews.slice(0, 3).map(eachReview => (
-              <ReviewItem review={eachReview} key={eachReview.id} />
-            ))}
+        {reviews.length > 0
+          ? (
+            <>
+              {reviews.slice(0, 3).map((eachReview) => (
+                <ReviewItem review={eachReview} key={eachReview.id} />
+              ))}
 
+              <div className="m-3">
+                <Link
+                  type="button"
+                  className="btn main-color btn-md btn-success"
+                  href={`/book-review/${props.id}`}
+                >
+                  Reach all reviews.
+                </Link>
+              </div>
+            </>
+          )
+          : (
             <div className="m-3">
-              <Link type="button" className="btn main-color btn-md btn-success"
-                href={`/book-review/${props.id}`}>
-                Reach all reviews.
-              </Link>
+              <p className="lead">
+                Currently there are no reviews for this book
+              </p>
             </div>
-          </>
-          :
-          <div className="m-3">
-            <p className="lead">
-              Currently there are no reviews for this book
-            </p>
-          </div>
-        }
+          )}
       </div>
     </div>
   );

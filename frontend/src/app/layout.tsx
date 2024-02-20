@@ -1,16 +1,16 @@
-import { ImportBsJS } from "@/components/ImportBsJS";
-import SessionWrapper from "@/components/SessionWrapper";
-import "@/styles/globals.css";
-import "bootstrap/dist/css/bootstrap.css";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Footer } from "./_components/Footer";
-import { NavBar } from "./_components/NavBar";
+import { ImportBsJS } from '@/components/ImportBsJS';
+import SessionWrapper from '@/components/SessionWrapper';
+import '@/styles/globals.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import { Footer } from './_components/Footer';
+import { NavBar } from './_components/NavBar';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Fullstack Demo Project",
+  title: 'Fullstack Demo Project',
   description: "Wade's spingboot-react fullstackdemo project",
 };
 

@@ -1,16 +1,15 @@
-import { Review } from "@/types/review";
-import { FC } from "react";
-import { StarsReview } from "../app/checkout/[id]/_components/StarsReview";
+import { FC } from 'react';
+import { Review } from '@/types/review';
+import { StarsReview } from '../app/checkout/[id]/_components/StarsReview';
 
 export const ReviewItem: FC<{ review: Review }> = (props) => {
-
   const date = new Date(props.review.date);
 
-  const longMonth = date.toLocaleString("en-us", { month: "long" });
+  const longMonth = date.toLocaleString('en-us', { month: 'long' });
   const dateDay = date.getDate();
   const dateYear = date.getFullYear();
 
-  const dateRender = longMonth + " " + dateDay + ", " + dateYear;
+  const dateRender = `${longMonth} ${dateDay}, ${dateYear}`;
 
   return (
     <div>

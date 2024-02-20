@@ -1,11 +1,10 @@
-import { FC } from "react";
+import { FC } from 'react';
 
 export const Pagination: FC<{
   currentPage: number,
   totalPages: number,
   paginate: any
 }> = (props) => {
-
   const pageNumbers = [];
 
   if (props.currentPage === 1) {
@@ -42,9 +41,12 @@ export const Pagination: FC<{
             First Page
           </button>
         </li>
-        {pageNumbers.map(number => (
-          <li key={number} onClick={() => props.paginate(number)}
-            className={"page-item " + (props.currentPage === number ? "active" : "")}>
+        {pageNumbers.map((number) => (
+          <li
+            key={number}
+            onClick={() => props.paginate(number)}
+            className={`page-item ${props.currentPage === number ? 'active' : ''}`}
+          >
             <button className="page-link">
               {number}
             </button>
@@ -58,4 +60,4 @@ export const Pagination: FC<{
       </ul>
     </nav>
   );
-}
+};

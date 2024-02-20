@@ -1,6 +1,6 @@
-import { getServerSession } from "next-auth";
-import Link from "next/link";
-import { FC } from "react";
+import { getServerSession } from 'next-auth';
+import Link from 'next/link';
+import { FC } from 'react';
 
 export const LibraryServices: FC<{}> = async () => {
   const session = await getServerSession();
@@ -16,20 +16,22 @@ export const LibraryServices: FC<{}> = async () => {
             send our library admin&ldquo;s a personal message!
           </p>
           <div className="d-grid gap-2 justify-content-md-start mb-4 mb-lg-3">
-            {session ?
-              <Link href="/message" type="button" className="btn main-color btn-lg px-4 me-md-2 fw-bold text-white">
-                Library Services
-              </Link>
-              :
-              <Link className="btn main-color btn-lg text-white" href="/login">
-                Sign up
-              </Link>
-            }
+            {session
+              ? (
+                <Link href="/message" type="button" className="btn main-color btn-lg px-4 me-md-2 fw-bold text-white">
+                  Library Services
+                </Link>
+              )
+              : (
+                <Link className="btn main-color btn-lg text-white" href="/login">
+                  Sign up
+                </Link>
+              )}
 
           </div>
         </div>
-        <div className="col-lg-4 offset-lg-1 shadow-lg lost-image"></div>
+        <div className="col-lg-4 offset-lg-1 shadow-lg lost-image" />
       </div>
     </div>
   );
-}
+};
