@@ -1,19 +1,18 @@
 {
     "env": {
         "browser": true,
-        "es6": true
+        "es2021": true
     },
     "extends": [
         "airbnb",
         "airbnb/hooks",
         "plugin:@typescript-eslint/recommended",
         "plugin:react/recommended",
-        "plugin:jsx-a11y/recommended",
         "plugin:import/typescript"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-    "ecmaVersion": 2015,
+    "ecmaVersion": "latest",
     "sourceType": "module",
     "project": "**/tsconfig.json",
     "ecmaFeatures": {
@@ -22,13 +21,12 @@
     },
     "plugins": [
         "import",
-        "jsx-a11y",
         "react",
         "react-hooks",
         "@typescript-eslint"
     ],
     "rules": {
-        "no-console": "error",
+        "no-console": ["error", { "allow": ["error"] }],
         "react/require-default-props": "off",
         "@typescript-eslint/no-explicit-any": "error",
         "react/prop-types": "off", // If you're using TypeScript, prop-types are not needed
@@ -49,7 +47,8 @@
         "react/jsx-props-no-spreading": "off", // Allowing spread props
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
-        "import/prefer-default-export": "off"
+        "import/prefer-default-export": "off",
+        "no-restricted-exports": 0
     },
     "settings": {
         "import/parsers": {

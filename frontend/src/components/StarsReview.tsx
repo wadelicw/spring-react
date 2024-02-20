@@ -1,20 +1,21 @@
-import { FC } from 'react';
+import { ReactElement } from 'react';
 
-export const StarsReview: FC<{ rating: number, size: number }> = (props) => {
-  let { rating } = props;
+export function StarsReview({ size, rating }: { rating: number, size: number }): ReactElement {
   let fullStars = 0;
   let halfStars = 0;
   let emptyStars = 0;
 
-  if (rating !== undefined && rating > 0 && rating <= 5) {
-    for (let i = 0; i <= 4; i++) {
-      if (rating - 1 >= 0) {
+  let ratingCopy = rating; // Create a copy of rating
+
+  if (ratingCopy !== undefined && ratingCopy > 0 && ratingCopy <= 5) {
+    for (let i = 0; i <= 4; i += 1) {
+      if (ratingCopy - 1 >= 0) {
         fullStars += 1;
-        rating -= 1;
-      } else if (rating === 0.5) {
+        ratingCopy -= 1;
+      } else if (ratingCopy === 0.5) {
         halfStars += 1;
-        rating -= 0.5;
-      } else if (rating === 0) {
+        ratingCopy -= 0.5;
+      } else if (ratingCopy === 0) {
         emptyStars += 1;
       } else {
         break;
@@ -30,8 +31,8 @@ export const StarsReview: FC<{ rating: number, size: number }> = (props) => {
         <svg
           key={i}
           xmlns="http://www.w3.org/2000/svg"
-          width={props.size}
-          height={props.size}
+          width={size}
+          height={size}
           fill="currentColor"
           className="bi bi-star-fill"
           style={{ color: 'gold' }}
@@ -45,8 +46,8 @@ export const StarsReview: FC<{ rating: number, size: number }> = (props) => {
         <svg
           key={i}
           xmlns="http://www.w3.org/2000/svg"
-          width={props.size}
-          height={props.size}
+          width={size}
+          height={size}
           fill="currentColor"
           className="bi bi-star-half"
           style={{ color: 'gold' }}
@@ -60,8 +61,8 @@ export const StarsReview: FC<{ rating: number, size: number }> = (props) => {
         <svg
           key={i}
           xmlns="http://www.w3.org/2000/svg"
-          width={props.size}
-          height={props.size}
+          width={size}
+          height={size}
           fill="currentColor"
           className="bi bi-star"
           style={{ color: 'gold' }}
@@ -73,4 +74,4 @@ export const StarsReview: FC<{ rating: number, size: number }> = (props) => {
 
     </div>
   );
-};
+}

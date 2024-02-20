@@ -1,10 +1,10 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
-import { FC, useEffect, useState } from 'react';
 import { Pagination } from '@/components/Pagination';
 import { SpinnerLoading } from '@/components/SpinnerLoading';
 import { Message } from '@/types/message';
+import { useSession } from 'next-auth/react';
+import { FC, useEffect, useState } from 'react';
 
 export const Messages: FC<{}> = () => {
   const [isLoadingMessages, setIsLoadingMessages] = useState(true);
@@ -34,7 +34,6 @@ export const Messages: FC<{}> = () => {
           throw new Error('Something went wrong!');
         }
         const messagesResponseJson = await messagesResponse.json();
-        console.log(messagesResponseJson);
         setMessages(messagesResponseJson._embedded.messages);
         setTotalPages(messagesResponseJson.page.totalPages);
       }

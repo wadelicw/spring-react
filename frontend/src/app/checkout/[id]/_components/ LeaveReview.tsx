@@ -1,10 +1,10 @@
 'use client';
 
+import { SpinnerLoading } from '@/components/SpinnerLoading';
+import { StarsReview } from '@/components/StarsReview';
+import { ReviewRequest } from '@/types/reviewRequest';
 import { useSession } from 'next-auth/react';
 import { FC, useEffect, useState } from 'react';
-import { SpinnerLoading } from '@/components/SpinnerLoading';
-import { ReviewRequest } from '@/types/reviewRequest';
-import { StarsReview } from './StarsReview';
 
 export const LeaveReview: FC<{ bookId: number }> = (props) => {
   const [starInput, setStarInput] = useState(0);
@@ -102,28 +102,28 @@ export const LeaveReview: FC<{ bookId: number }> = (props) => {
               <StarsReview rating={starInput} size={32} />
 
               {displayInput
-              && (
-              <form method="POST" action="#">
-                <hr />
+                && (
+                  <form method="POST" action="#">
+                    <hr />
 
-                <div className="mb-3">
-                  <label className="form-label">
-                    Description
-                  </label>
-                  <textarea
-                    className="form-control"
-                    id="submitReviewDescription"
-                    placeholder="Optional"
-                    rows={3}
-                    onChange={(e) => setReviewDescription(e.target.value)}
-                  />
-                </div>
+                    <div className="mb-3">
+                      <label className="form-label">
+                        Description
+                      </label>
+                      <textarea
+                        className="form-control"
+                        id="submitReviewDescription"
+                        placeholder="Optional"
+                        rows={3}
+                        onChange={(e) => setReviewDescription(e.target.value)}
+                      />
+                    </div>
 
-                <div>
-                  <button type="button" onClick={() => submitReview(starInput, reviewDescription)} className="btn btn-primary mt-3">Submit Review</button>
-                </div>
-              </form>
-              )}
+                    <div>
+                      <button type="button" onClick={() => submitReview(starInput, reviewDescription)} className="btn btn-primary mt-3">Submit Review</button>
+                    </div>
+                  </form>
+                )}
 
             </div>
           )

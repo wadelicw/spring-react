@@ -1,63 +1,66 @@
-import { FC } from 'react';
+import { KeyboardEvent, ReactElement } from 'react';
 
-export const Pagination: FC<{
-  currentPage: number,
-  totalPages: number,
-  paginate: any
-}> = (props) => {
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  paginate: (arg1: number) => void;
+}
+
+export function Pagination({ currentPage, totalPages, paginate }: PaginationProps): ReactElement {
   const pageNumbers = [];
 
-  if (props.currentPage === 1) {
-    pageNumbers.push(props.currentPage);
-    if (props.totalPages >= props.currentPage + 1) {
-      pageNumbers.push(props.currentPage + 1);
-    }
-    if (props.totalPages >= props.currentPage + 2) {
-      pageNumbers.push(props.currentPage + 2);
-    }
-  } else if (props.currentPage > 1) {
-    if (props.currentPage >= 3) {
-      pageNumbers.push(props.currentPage - 2);
-      pageNumbers.push(props.currentPage - 1);
-    } else {
-      pageNumbers.push(props.currentPage - 1);
-    }
+  const startPage = Math.max(1, currentPage - 2);
+  const endPage = Math.min(totalPages, currentPage + 2);
 
-    pageNumbers.push(props.currentPage);
-
-    if (props.totalPages >= props.currentPage + 1) {
-      pageNumbers.push(props.currentPage + 1);
-    }
-    if (props.totalPages >= props.currentPage + 2) {
-      pageNumbers.push(props.currentPage + 2);
-    }
+  for (let i = startPage; i <= endPage; i += 1) {
+    pageNumbers.push(i);
   }
+
+  const handleKeyDown = (e: KeyboardEvent, pageNumber: number) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      paginate(pageNumber);
+    }
+  };
 
   return (
     <nav aria-label="...">
       <ul className="pagination">
-        <li className="page-item" onClick={() => props.paginate(1)}>
-          <button className="page-link">
+        <li className="page-item">
+          <button
+            className="page-link"
+            type="button"
+            onClick={() => paginate(1)}
+            onKeyDown={(e) => handleKeyDown(e, 1)}
+          >
             First Page
           </button>
         </li>
         {pageNumbers.map((number) => (
           <li
             key={number}
-            onClick={() => props.paginate(number)}
-            className={`page-item ${props.currentPage === number ? 'active' : ''}`}
+            className={`page-item ${currentPage === number ? 'active' : ''}`}
           >
-            <button className="page-link">
+            <button
+              className="page-link"
+              type="button"
+              onClick={() => paginate(number)}
+              onKeyDown={(e) => handleKeyDown(e, number)}
+            >
               {number}
             </button>
           </li>
         ))}
-        <li className="page-item" onClick={() => props.paginate(props.totalPages)}>
-          <button className="page-link">
+        <li className="page-item">
+          <button
+            className="page-link"
+            type="button"
+            onClick={() => paginate(totalPages)}
+            onKeyDown={(e) => handleKeyDown(e, totalPages)}
+          >
             Last Page
           </button>
         </li>
       </ul>
     </nav>
   );
-};
+}

@@ -1,9 +1,9 @@
-import { FC } from 'react';
 import { Review } from '@/types/review';
-import { StarsReview } from '../app/checkout/[id]/_components/StarsReview';
+import { ReactElement } from 'react';
+import { StarsReview } from './StarsReview';
 
-export const ReviewItem: FC<{ review: Review }> = (props) => {
-  const date = new Date(props.review.date);
+export function ReviewItem({ review }: { review: Review }): ReactElement {
+  const date = new Date(review.date);
 
   const longMonth = date.toLocaleString('en-us', { month: 'long' });
   const dateDay = date.getDate();
@@ -14,22 +14,22 @@ export const ReviewItem: FC<{ review: Review }> = (props) => {
   return (
     <div>
       <div className="col-sm-8 col-md-8">
-        <h5>{props.review.userEmail}</h5>
+        <h5>{review.userEmail}</h5>
         <div className="row">
           <div className="col">
             {dateRender}
           </div>
           <div className="col">
-            <StarsReview rating={props.review.rating} size={16} />
+            <StarsReview rating={review.rating} size={16} />
           </div>
         </div>
         <div className="mt-2">
           <p>
-            {props.review.reviewDescription}
+            {review.reviewDescription}
           </p>
         </div>
       </div>
       <hr />
     </div>
   );
-};
+}

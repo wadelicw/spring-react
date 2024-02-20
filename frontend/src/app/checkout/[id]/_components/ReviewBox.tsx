@@ -1,11 +1,11 @@
 'use client';
 
-import Link from 'next/link';
-import { FC, useEffect, useState } from 'react';
 import { ReviewItem } from '@/components/ReviewItem';
 import { SpinnerLoading } from '@/components/SpinnerLoading';
+import { StarsReview } from '@/components/StarsReview';
 import { Review } from '@/types/review';
-import { StarsReview } from './StarsReview';
+import Link from 'next/link';
+import { FC, useEffect, useState } from 'react';
 
 export const ReviewBox: FC<{ id: string }> = (props) => {
   const [reviews, setReviews] = useState<Review[]>([]);

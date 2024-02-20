@@ -1,14 +1,16 @@
-import { FC } from 'react';
+import { ReactElement } from 'react';
 
-export const SpinnerLoading: FC<{}> = () => (
-  <div
-    className="container m-5 d-flex justify-content-center"
-    style={{ height: 550 }}
-  >
-    <div className="spinner-border text-primary" role="status">
-      <span className="visually-hidden">
-        Loading...
-      </span>
+export function SpinnerLoading(): ReactElement {
+  return (
+    <div
+      className="container m-5 d-flex justify-content-center"
+      style={{ height: 550 }}
+    >
+      <div className="spinner-border text-primary" role="status">
+        <span className="visually-hidden">
+          Loading...
+        </span>
+      </div>
     </div>
-  </div>
-);
+  );
+}

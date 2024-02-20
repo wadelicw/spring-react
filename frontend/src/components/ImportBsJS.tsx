@@ -1,10 +1,12 @@
 'use client';
 
-import { FC, useEffect } from 'react';
+import { useEffect } from 'react';
 
-export const ImportBsJS: FC<{}> = () => {
+export function ImportBsJS() {
   useEffect(() => {
-    require('bootstrap/dist/js/bootstrap.bundle.min.js');
+    /* eslint-disable global-require */
+    require('bootstrap/dist/js/bootstrap.bundle.min');
+    /* eslint-enable global-require */
   }, []);
   return null;
-};
+}
