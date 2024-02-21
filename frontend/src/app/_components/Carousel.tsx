@@ -1,12 +1,12 @@
 'use client';
 
-import Link from 'next/link';
-import { FC, useEffect, useState } from 'react';
 import { SpinnerLoading } from '@/components/SpinnerLoading';
 import { Book } from '@/types/book';
+import Link from 'next/link';
+import { ReactElement, useEffect, useState } from 'react';
 import { ReturnBook } from '../../components/ReturnBook';
 
-export const Carousel: FC<{}> = () => {
+export function Carousel(): ReactElement {
   const [books, setBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -99,4 +99,4 @@ export const Carousel: FC<{}> = () => {
       </div>
     </div>
   );
-};
+}

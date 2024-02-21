@@ -1,2 +1,2 @@
 cd frontend
-npm lint
+npm run lint
