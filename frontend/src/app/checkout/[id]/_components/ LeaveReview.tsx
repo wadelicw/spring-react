@@ -4,9 +4,11 @@ import { SpinnerLoading } from '@/components/SpinnerLoading';
 import { StarsReview } from '@/components/StarsReview';
 import { ReviewRequest } from '@/types/reviewRequest';
 import { useSession } from 'next-auth/react';
-import { FC, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 
-export const LeaveReview: FC<{ bookId: number }> = (props) => {
+interface LeaveReviewProps { bookId: number }
+
+export function LeaveReview({ bookId }: LeaveReviewProps): ReactElement {
   const [starInput, setStarInput] = useState(0);
   const [displayInput, setDisplayInput] = useState(false);
   const [reviewDescription, setReviewDescription] = useState('');
@@ -17,7 +19,7 @@ export const LeaveReview: FC<{ bookId: number }> = (props) => {
   useEffect(() => {
     const fetchUserReviewedBook = async () => {
       if (session) {
-        const url = `${process.env.apiEndpoint}/reviews/secure/user/book?bookId=${props.bookId}`;
+        const url = `${process.env.apiEndpoint}/reviews/secure/user/book?bookId=${bookId}`;
         const requestOptions = {
           method: 'GET',
           headers: {
@@ -37,7 +39,7 @@ export const LeaveReview: FC<{ bookId: number }> = (props) => {
       }
     };
     fetchUserReviewedBook();
-  }, []);
+  }, [session, bookId]);
 
   if (isLoading) {
     return (
@@ -50,14 +52,13 @@ export const LeaveReview: FC<{ bookId: number }> = (props) => {
     setDisplayInput(true);
   }
 
-  const submitReview = async (starInput: number, reviewDescription: string) => {
+  const submitReview = async (starInputParam: number, reviewDescriptionParam: string) => {
     if (session) {
-      let bookId: number = 0;
-      if (props.bookId) {
-        bookId = props.bookId;
-      }
-
-      const reviewRequestModel: ReviewRequest = { rating: starInput, bookId, reviewDescription };
+      const reviewRequestModel: ReviewRequest = {
+        rating: starInputParam,
+        bookId: bookId || 0,
+        reviewDescription: reviewDescriptionParam,
+      };
       const url = `${process.env.apiEndpoint}/reviews/secure`;
       const requestOptions = {
         method: 'POST',
@@ -87,17 +88,17 @@ export const LeaveReview: FC<{ bookId: number }> = (props) => {
                 Leave a review?
               </h5>
               <ul id="submitReviewRating" className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><button onClick={() => starValue(0)} className="dropdown-item">0 star</button></li>
-                <li><button onClick={() => starValue(0.5)} className="dropdown-item">.5 star</button></li>
-                <li><button onClick={() => starValue(1)} className="dropdown-item">1 star</button></li>
-                <li><button onClick={() => starValue(1.5)} className="dropdown-item">1.5 star</button></li>
-                <li><button onClick={() => starValue(2)} className="dropdown-item">2 star</button></li>
-                <li><button onClick={() => starValue(2.5)} className="dropdown-item">2.5 star</button></li>
-                <li><button onClick={() => starValue(3)} className="dropdown-item">3 star</button></li>
-                <li><button onClick={() => starValue(3.5)} className="dropdown-item">3.5 star</button></li>
-                <li><button onClick={() => starValue(4)} className="dropdown-item">4 star</button></li>
-                <li><button onClick={() => starValue(4.5)} className="dropdown-item">4.5 star</button></li>
-                <li><button onClick={() => starValue(5)} className="dropdown-item">5 star</button></li>
+                <li><button type="button" onClick={() => starValue(0)} className="dropdown-item">0 star</button></li>
+                <li><button type="button" onClick={() => starValue(0.5)} className="dropdown-item">.5 star</button></li>
+                <li><button type="button" onClick={() => starValue(1)} className="dropdown-item">1 star</button></li>
+                <li><button type="button" onClick={() => starValue(1.5)} className="dropdown-item">1.5 star</button></li>
+                <li><button type="button" onClick={() => starValue(2)} className="dropdown-item">2 star</button></li>
+                <li><button type="button" onClick={() => starValue(2.5)} className="dropdown-item">2.5 star</button></li>
+                <li><button type="button" onClick={() => starValue(3)} className="dropdown-item">3 star</button></li>
+                <li><button type="button" onClick={() => starValue(3.5)} className="dropdown-item">3.5 star</button></li>
+                <li><button type="button" onClick={() => starValue(4)} className="dropdown-item">4 star</button></li>
+                <li><button type="button" onClick={() => starValue(4.5)} className="dropdown-item">4.5 star</button></li>
+                <li><button type="button" onClick={() => starValue(5)} className="dropdown-item">5 star</button></li>
               </ul>
               <StarsReview rating={starInput} size={32} />
 
@@ -107,7 +108,7 @@ export const LeaveReview: FC<{ bookId: number }> = (props) => {
                     <hr />
 
                     <div className="mb-3">
-                      <label className="form-label">
+                      <label className="form-label" htmlFor="submitReviewDescription">
                         Description
                       </label>
                       <textarea
@@ -130,4 +131,4 @@ export const LeaveReview: FC<{ bookId: number }> = (props) => {
       }
     </div>
   );
-};
+}

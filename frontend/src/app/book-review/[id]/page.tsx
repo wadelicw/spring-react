@@ -1,15 +1,16 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
 import { Pagination } from '@/components/Pagination';
 import { ReviewItem } from '@/components/ReviewItem';
 import { SpinnerLoading } from '@/components/SpinnerLoading';
 import { Review } from '@/types/review';
+import { ReactElement, useEffect, useState } from 'react';
 
-const BookReview: FC<{ params: { id: string } }> = (props) => {
+interface BookReviewProps { params: { id: string } }
+
+function BookReview({ params: { id } }: BookReviewProps): ReactElement {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [httpError, setHttpError] = useState(null);
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,7 +20,7 @@ const BookReview: FC<{ params: { id: string } }> = (props) => {
 
   useEffect(() => {
     const fetchBookReviewsData = async () => {
-      const reviewUrl: string = `${process.env.apiEndpoint}/reviews/search/findByBookId?bookId=${props.params.id}&page=${currentPage - 1}&size=${reviewsPerPage}`;
+      const reviewUrl: string = `${process.env.apiEndpoint}/reviews/search/findByBookId?bookId=${id}&page=${currentPage - 1}&size=${reviewsPerPage}`;
 
       const responseReviews = await fetch(reviewUrl);
 
@@ -34,39 +35,17 @@ const BookReview: FC<{ params: { id: string } }> = (props) => {
       setTotalAmountOfReviews(responseJsonReviews.page.totalElements);
       setTotalPages(responseJsonReviews.page.totalPages);
 
-      const loadedReviews: Review[] = [];
-
-      for (const key in responseData) {
-        loadedReviews.push({
-          id: responseData[key].id,
-          userEmail: responseData[key].userEmail,
-          date: responseData[key].date,
-          rating: responseData[key].rating,
-          book_id: responseData[key].book_id,
-          reviewDescription: responseData[key].reviewDescription,
-        });
-      }
+      const loadedReviews: Review[] = responseData;
 
       setReviews(loadedReviews);
       setIsLoading(false);
     };
-    fetchBookReviewsData().catch((error: any) => {
-      setIsLoading(false);
-      setHttpError(error.message);
-    });
-  }, [currentPage]);
+    fetchBookReviewsData();
+  }, [currentPage, id, reviewsPerPage]);
 
   if (isLoading) {
     return (
       <SpinnerLoading />
-    );
-  }
-
-  if (httpError) {
-    return (
-      <div className="container m-5">
-        <p>{httpError}</p>
-      </div>
     );
   }
 
@@ -104,9 +83,18 @@ const BookReview: FC<{ params: { id: string } }> = (props) => {
         ))}
       </div>
 
-      {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />}
+      {
+        totalPages > 1
+        && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            paginate={paginate}
+          />
+        )
+      }
     </div>
   );
-};
+}
 
 export default BookReview;

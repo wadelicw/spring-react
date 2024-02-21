@@ -1,24 +1,28 @@
+import { Book } from '@/types/book';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { FC, useEffect, useState } from 'react';
-import { Book } from '@/types/book';
+import { ReactElement, useEffect, useState } from 'react';
 
-export const ChangeQuantityOfBook: FC<{ book: Book, deleteBook: any }> = (props) => {
+interface ChangeQuantityOfBookProps { book: Book, deleteBook: () => void }
+
+export function ChangeQuantityOfBook(
+  { book, deleteBook }: ChangeQuantityOfBookProps,
+): ReactElement {
   const [quantity, setQuantity] = useState<number>(0);
   const [remaining, setRemaining] = useState<number>(0);
   const { data: session } = useSession();
 
   useEffect(() => {
     const fetchBookInState = () => {
-      props.book.copies ? setQuantity(props.book.copies) : setQuantity(0);
-      props.book.copiesAvailable ? setRemaining(props.book.copiesAvailable) : setRemaining(0);
+      setQuantity(book.copies ? book.copies : 0);
+      setRemaining(book.copiesAvailable ? book.copiesAvailable : 0);
     };
     fetchBookInState();
-  }, []);
+  }, [book.copies, book.copiesAvailable]);
 
   async function increaseQuantity() {
     if (session) {
-      const url = `${process.env.apiEndpoint}/admin/secure/increase/book/quantity?bookId=${props.book?.id}`;
+      const url = `${process.env.apiEndpoint}/admin/secure/increase/book/quantity?bookId=${book?.id}`;
       const requestOptions = {
         method: 'PUT',
         headers: {
@@ -38,7 +42,7 @@ export const ChangeQuantityOfBook: FC<{ book: Book, deleteBook: any }> = (props)
 
   async function decreaseQuantity() {
     if (session) {
-      const url = `${process.env.apiEndpoint}/admin/secure/decrease/book/quantity?bookId=${props.book?.id}`;
+      const url = `${process.env.apiEndpoint}/admin/secure/decrease/book/quantity?bookId=${book?.id}`;
       const requestOptions = {
         method: 'PUT',
         headers: {
@@ -56,9 +60,9 @@ export const ChangeQuantityOfBook: FC<{ book: Book, deleteBook: any }> = (props)
     }
   }
 
-  async function deleteBook() {
+  async function deleteBookOnclick() {
     if (session) {
-      const url = `${process.env.apiEndpoint}/admin/secure/delete/book?bookId=${props.book?.id}`;
+      const url = `${process.env.apiEndpoint}/admin/secure/delete/book?bookId=${book?.id}`;
       const requestOptions = {
         method: 'DELETE',
         headers: {
@@ -71,7 +75,7 @@ export const ChangeQuantityOfBook: FC<{ book: Book, deleteBook: any }> = (props)
       if (!updateResponse.ok) {
         throw new Error('Something went wrong!');
       }
-      props.deleteBook();
+      deleteBook();
     }
   }
 
@@ -80,8 +84,8 @@ export const ChangeQuantityOfBook: FC<{ book: Book, deleteBook: any }> = (props)
       <div className="row g-0">
         <div className="col-md-2">
           <div className="d-none d-lg-block">
-            {props.book.img
-              ? <Image src={`/images/books/${props.book.img}`} width="123" height="196" alt="Book" />
+            {book.img
+              ? <Image src={`/images/books/${book.img}`} width="123" height="196" alt="Book" />
               : (
                 <Image
                   src="/images/books/new-book-1.png"
@@ -92,8 +96,8 @@ export const ChangeQuantityOfBook: FC<{ book: Book, deleteBook: any }> = (props)
               )}
           </div>
           <div className="d-lg-none d-flex justify-content-center align-items-center">
-            {props.book.img
-              ? <Image src={`/images/books/${props.book.img}`} width="123" height="196" alt="Book" />
+            {book.img
+              ? <Image src={`/images/books/${book.img}`} width="123" height="196" alt="Book" />
               : (
                 <Image
                   src="/images/books/new-book-1.png"
@@ -106,11 +110,11 @@ export const ChangeQuantityOfBook: FC<{ book: Book, deleteBook: any }> = (props)
         </div>
         <div className="col-md-6">
           <div className="card-body">
-            <h5 className="card-title">{props.book.author}</h5>
-            <h4>{props.book.title}</h4>
+            <h5 className="card-title">{book.author}</h5>
+            <h4>{book.title}</h4>
             <p className="card-text">
               {' '}
-              {props.book.description}
+              {book.description}
               {' '}
             </p>
           </div>
@@ -131,12 +135,12 @@ export const ChangeQuantityOfBook: FC<{ book: Book, deleteBook: any }> = (props)
         </div>
         <div className="mt-3 col-md-1">
           <div className="d-flex justify-content-start">
-            <button className="m-1 btn btn-md btn-danger" onClick={deleteBook}>Delete</button>
+            <button type="button" className="m-1 btn btn-md btn-danger" onClick={deleteBookOnclick}>Delete</button>
           </div>
         </div>
-        <button className="m1 btn btn-md main-color text-white" onClick={increaseQuantity}>Add Quantity</button>
-        <button className="m1 btn btn-md btn-warning" onClick={decreaseQuantity}>Decrease Quantity</button>
+        <button type="button" className="m1 btn btn-md main-color text-white" onClick={increaseQuantity}>Add Quantity</button>
+        <button type="button" className="m1 btn btn-md btn-warning" onClick={decreaseQuantity}>Decrease Quantity</button>
       </div>
     </div>
   );
-};
+}

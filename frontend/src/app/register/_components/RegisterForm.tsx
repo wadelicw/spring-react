@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { FC, FormEvent } from 'react';
+import { FormEvent, ReactElement } from 'react';
 
-export const RegisterForm: FC<{}> = () => {
+export function RegisterForm(): ReactElement {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -16,7 +16,6 @@ export const RegisterForm: FC<{}> = () => {
       }),
     });
     if (response.ok) {
-      window.alert('success to register, please login');
       redirect('/login');
     }
   };
@@ -29,24 +28,24 @@ export const RegisterForm: FC<{}> = () => {
               <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Register</p>
               <form onSubmit={handleSubmit}>
                 <div className="form-floating mb-3">
+                  <label htmlFor="email">Email</label>
                   <input
                     name="email"
                     type="email"
-                    id="floatingInputEmail"
+                    id="email"
                     placeholder="name@example.com"
                     className="form-control"
                   />
-                  <label htmlFor="floatingInput">Email</label>
                 </div>
                 <div className="form-floating mb-3">
+                  <label htmlFor="password">Password</label>
                   <input
                     name="password"
                     type="password"
-                    id="floatingPassword"
+                    id="password"
                     placeholder="Password"
                     className="form-control"
                   />
-                  <label htmlFor="floatingPassword">Password</label>
                 </div>
                 <div className="d-grid">
                   <button
@@ -71,4 +70,4 @@ export const RegisterForm: FC<{}> = () => {
       </div>
     </div>
   );
-};
+}

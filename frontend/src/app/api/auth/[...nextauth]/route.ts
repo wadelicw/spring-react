@@ -1,8 +1,8 @@
+import { signJwtAccessToken } from '@/utils/jwt';
+import prisma from '@/utils/prisma';
 import { compare } from 'bcrypt';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import prisma from '@/utils/prisma';
-import { signJwtAccessToken } from '@/utils/jwt';
 
 const handler = NextAuth({
   session: {
@@ -18,7 +18,8 @@ const handler = NextAuth({
         email: {},
         password: {},
       },
-      async authorize(credentials, req): Promise<any> {
+      /* eslint-disable  @typescript-eslint/no-explicit-any */
+      async authorize(credentials): Promise<any> {
         try {
           const user = await prisma.user.findFirst({
             where: {
@@ -43,6 +44,7 @@ const handler = NextAuth({
           return null;
         } catch (error) {
           console.error(error);
+          return null;
         }
       },
     }),
@@ -52,6 +54,8 @@ const handler = NextAuth({
       return { ...token, ...user };
     },
     async session({ session, token }) {
+      /* eslint-disable  @typescript-eslint/no-explicit-any */
+      /* eslint-disable  no-param-reassign */
       session.user = token as any;
       return session;
     },

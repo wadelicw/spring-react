@@ -1,10 +1,10 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
-import { FC, useState } from 'react';
 import { Message } from '@/types/message';
+import { useSession } from 'next-auth/react';
+import { ReactElement, useState } from 'react';
 
-export const PostNewMessage: FC<{}> = () => {
+export function PostNewMessage(): ReactElement {
   const [title, setTitle] = useState('');
   const [question, setQuestion] = useState('');
   const [displayWarning, setDisplayWarning] = useState(false);
@@ -48,18 +48,18 @@ export const PostNewMessage: FC<{}> = () => {
         <form method="POST">
           {displayWarning
             && (
-            <div className="alert alert-danger" role="alert">
-              All fields must be filled out
-            </div>
+              <div className="alert alert-danger" role="alert">
+                All fields must be filled out
+              </div>
             )}
           {displaySuccess
             && (
-            <div className="alert alert-success" role="alert">
-              Question added successfully
-            </div>
+              <div className="alert alert-success" role="alert">
+                Question added successfully
+              </div>
             )}
           <div className="mb-3">
-            <label className="form-label">
+            <label className="form-label" htmlFor="exampleFormControlInput1">
               Title
             </label>
             <input
@@ -73,7 +73,7 @@ export const PostNewMessage: FC<{}> = () => {
           </div>
 
           <div className="mb-3">
-            <label className="form-label">
+            <label className="form-label" htmlFor="exampleFormControlTextarea1">
               Question
             </label>
             <textarea
@@ -93,4 +93,4 @@ export const PostNewMessage: FC<{}> = () => {
       </div>
     </div>
   );
-};
+}

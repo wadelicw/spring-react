@@ -1,12 +1,14 @@
-import { useSession } from 'next-auth/react';
-import { FC, useEffect, useState } from 'react';
 import { Pagination } from '@/components/Pagination';
 import { SpinnerLoading } from '@/components/SpinnerLoading';
 import { AdminMessageRequest } from '@/types/adminMessageRequest';
 import { Message } from '@/types/message';
+import { useSession } from 'next-auth/react';
+import {
+  ReactElement, useCallback, useEffect, useState,
+} from 'react';
 import { AdminMessage } from './AdminMessage';
 
-export const AdminMessages: FC<{}> = () => {
+export function AdminMessages(): ReactElement {
   // Normal Loading Pieces
   const [isLoadingMessages, setIsLoadingMessages] = useState(true);
 
@@ -47,15 +49,9 @@ export const AdminMessages: FC<{}> = () => {
     };
     fetchUserMessages();
     window.scrollTo(0, 0);
-  }, [currentPage, btnSubmit]);
+  }, [currentPage, btnSubmit, session, messagesPerPage]);
 
-  if (isLoadingMessages) {
-    return (
-      <SpinnerLoading />
-    );
-  }
-
-  async function submitResponseToQuestion(id: number, response: string) {
+  const submitResponseToQuestion = useCallback(async (id: number, response: string) => {
     const url = `${process.env.apiEndpoint}/messages/secure/admin/message`;
     if (session && id !== null && response !== '') {
       const messageAdminRequestModel: AdminMessageRequest = { id, response };
@@ -74,6 +70,12 @@ export const AdminMessages: FC<{}> = () => {
       }
       setBtnSubmit(!btnSubmit);
     }
+  }, [session, btnSubmit]);
+
+  if (isLoadingMessages) {
+    return (
+      <SpinnerLoading />
+    );
   }
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
@@ -85,12 +87,25 @@ export const AdminMessages: FC<{}> = () => {
           <>
             <h5>Pending Q/A: </h5>
             {messages.map((message) => (
-              <AdminMessage message={message} key={message.id} submitResponseToQuestion={submitResponseToQuestion} />
+              <AdminMessage
+                message={message}
+                key={message.id}
+                submitResponseToQuestion={submitResponseToQuestion}
+              />
             ))}
           </>
         )
         : <h5>No pending Q/A</h5>}
-      {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />}
+      {
+        totalPages > 1
+        && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            paginate={paginate}
+          />
+        )
+      }
     </div>
   );
-};
+}

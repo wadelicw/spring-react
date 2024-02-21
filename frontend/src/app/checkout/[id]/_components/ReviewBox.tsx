@@ -5,9 +5,11 @@ import { SpinnerLoading } from '@/components/SpinnerLoading';
 import { StarsReview } from '@/components/StarsReview';
 import { Review } from '@/types/review';
 import Link from 'next/link';
-import { FC, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 
-export const ReviewBox: FC<{ id: string }> = (props) => {
+interface ReviewBoxProps { id: string }
+
+export function ReviewBox({ id }: ReviewBoxProps): ReactElement {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [totalStars, setTotalStars] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -15,7 +17,7 @@ export const ReviewBox: FC<{ id: string }> = (props) => {
   useEffect(() => {
     const fetchBookReviews = async () => {
       setIsLoading(true);
-      const reviewUrl: string = `${process.env.apiEndpoint}/reviews/search/findByBookId?bookId=${props.id}`;
+      const reviewUrl: string = `${process.env.apiEndpoint}/reviews/search/findByBookId?bookId=${id}`;
       const responseReviews = await fetch(reviewUrl);
 
       if (!responseReviews.ok) {
@@ -27,7 +29,7 @@ export const ReviewBox: FC<{ id: string }> = (props) => {
       const loadedReviews: Review[] = [];
       let weightedStarReviews: number = 0;
 
-      for (const key in responseData) {
+      Object.keys(responseData).forEach((key) => {
         loadedReviews.push({
           id: responseData[key].id,
           userEmail: responseData[key].userEmail,
@@ -37,7 +39,7 @@ export const ReviewBox: FC<{ id: string }> = (props) => {
           reviewDescription: responseData[key].reviewDescription,
         });
         weightedStarReviews += responseData[key].rating;
-      }
+      });
 
       if (loadedReviews) {
         const round = (Math.round((weightedStarReviews / loadedReviews.length) * 2) / 2).toFixed(1);
@@ -49,7 +51,7 @@ export const ReviewBox: FC<{ id: string }> = (props) => {
     };
 
     fetchBookReviews().catch(() => setIsLoading(false));
-  }, []);
+  }, [id]);
 
   if (isLoading) {
     return (
@@ -75,7 +77,7 @@ export const ReviewBox: FC<{ id: string }> = (props) => {
                 <Link
                   type="button"
                   className="btn main-color btn-md btn-success"
-                  href={`/book-review/${props.id}`}
+                  href={`/book-review/${id}`}
                 >
                   Reach all reviews.
                 </Link>
@@ -92,4 +94,4 @@ export const ReviewBox: FC<{ id: string }> = (props) => {
       </div>
     </div>
   );
-};
+}

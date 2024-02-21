@@ -1,14 +1,14 @@
 'use client';
 
+import { Pagination } from '@/components/Pagination';
+import { SpinnerLoading } from '@/components/SpinnerLoading';
+import { History } from '@/types/history';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FC, useEffect, useState } from 'react';
-import { History } from '@/types/history';
-import { SpinnerLoading } from '@/components/SpinnerLoading';
-import { Pagination } from '@/components/Pagination';
+import { ReactElement, useEffect, useState } from 'react';
 
-export const HistoryPage: FC<{}> = () => {
+export function HistoryPage(): ReactElement {
   const [isLoadingHistory, setIsLoadingHistory] = useState(true);
   const { data: session } = useSession();
 
@@ -125,7 +125,16 @@ export const HistoryPage: FC<{}> = () => {
             </Link>
           </>
         )}
-      {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />}
+      {
+        totalPages > 1
+        && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            paginate={paginate}
+          />
+        )
+      }
     </div>
   );
-};
+}

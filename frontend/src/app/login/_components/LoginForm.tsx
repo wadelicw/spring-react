@@ -3,9 +3,9 @@
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FC, FormEvent } from 'react';
+import { FormEvent, ReactElement } from 'react';
 
-export const LoginForm: FC<{}> = () => {
+export function LoginForm(): ReactElement {
   const router = useRouter();
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,8 +18,6 @@ export const LoginForm: FC<{}> = () => {
     if (response?.ok) {
       router.push('/');
       router.refresh();
-    } else {
-      window.alert('User name or password incorrect!');
     }
   };
   return (
@@ -73,4 +71,4 @@ export const LoginForm: FC<{}> = () => {
       </div>
     </div>
   );
-};
+}

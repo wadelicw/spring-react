@@ -19,6 +19,7 @@ export default function Error({
     <div className="container mt-5" style={{ height: 550 }}>
       <h2>Something went wrong!</h2>
       <button
+        type="button"
         onClick={
           // Attempt to recover by trying to re-render the segment
           () => reset()

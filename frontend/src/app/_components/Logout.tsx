@@ -2,9 +2,9 @@
 
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { FC } from 'react';
+import { ReactElement } from 'react';
 
-export const Logout: FC<{}> = () => {
+export function Logout(): ReactElement {
   const router = useRouter();
   return (
     <button
@@ -18,4 +18,4 @@ export const Logout: FC<{}> = () => {
       Logout
     </button>
   );
-};
+}

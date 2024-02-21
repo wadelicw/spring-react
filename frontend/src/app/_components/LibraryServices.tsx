@@ -1,8 +1,8 @@
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
-import { FC } from 'react';
+import { ReactElement } from 'react';
 
-export const LibraryServices: FC<{}> = async () => {
+export async function LibraryServices(): Promise<ReactElement> {
   const session = await getServerSession();
   return (
     <div className="container my-5">
@@ -34,4 +34,4 @@ export const LibraryServices: FC<{}> = async () => {
       </div>
     </div>
   );
-};
+}

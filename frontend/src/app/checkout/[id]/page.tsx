@@ -1,19 +1,21 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
 import { SpinnerLoading } from '@/components/SpinnerLoading';
 import { Book } from '@/types/book';
+import { ReactElement, useEffect, useState } from 'react';
 import { BookDetails } from './_components/BookDetails';
 import { CheckoutBox } from './_components/CheckoutBox';
 import { ReviewBox } from './_components/ReviewBox';
 
-const Checkout: FC<{ params: { id: string } }> = (props) => {
+interface CheckoutProps { params: { id: string } }
+
+function Checkout({ params: { id } }: CheckoutProps): ReactElement {
   const [book, setBook] = useState<Book>();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchBook = async () => {
-      const baseUrl: string = `${process.env.apiEndpoint}/books/${props.params.id}`;
+      const baseUrl: string = `${process.env.apiEndpoint}/books/${id}`;
       const response = await fetch(baseUrl);
       if (!response.ok) {
         throw new Error('Something went wrong!');
@@ -24,7 +26,7 @@ const Checkout: FC<{ params: { id: string } }> = (props) => {
     };
 
     fetchBook().catch(() => setIsLoading(false));
-  }, []);
+  }, [id]);
 
   if (isLoading) {
     return (
@@ -39,9 +41,9 @@ const Checkout: FC<{ params: { id: string } }> = (props) => {
         <CheckoutBox book={book as Book} />
       </div>
       <hr />
-      <ReviewBox id={props.params.id} />
+      <ReviewBox id={id} />
     </div>
   );
-};
+}
 
 export default Checkout;

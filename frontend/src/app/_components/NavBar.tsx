@@ -2,10 +2,10 @@
 
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { FC } from 'react';
+import { ReactElement } from 'react';
 import { Logout } from './Logout';
 
-export const NavBar: FC<{}> = () => {
+export function NavBar(): ReactElement {
   const { data: session } = useSession();
   return (
     <nav className="navbar navbar-expand-lg navbar-dark main-color py-3">
@@ -32,9 +32,9 @@ export const NavBar: FC<{}> = () => {
             </li>
             {session
               && (
-              <li className="nav-item">
-                <Link className="nav-link" href="/shelf">Shelf</Link>
-              </li>
+                <li className="nav-item">
+                  <Link className="nav-link" href="/shelf">Shelf</Link>
+                </li>
               )}
             {session && session.user.role === 'ADMIN' && (
               <li className="nav-item">
@@ -59,4 +59,4 @@ export const NavBar: FC<{}> = () => {
       </div>
     </nav>
   );
-};
+}

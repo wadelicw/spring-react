@@ -1,12 +1,12 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
 import { Pagination } from '@/components/Pagination';
 import { SpinnerLoading } from '@/components/SpinnerLoading';
 import { Book } from '@/types/book';
+import { ReactElement, useEffect, useState } from 'react';
 import { SearchBook } from './_components/SearchBook';
 
-const Search: FC<{}> = () => {
+function Search(): ReactElement {
   const [books, setBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -99,6 +99,7 @@ const Search: FC<{}> = () => {
                 <button
                   className="btn btn-outline-success"
                   onClick={() => searchHandleChange()}
+                  type="button"
                 >
                   Search
                 </button>
@@ -116,30 +117,50 @@ const Search: FC<{}> = () => {
                   {categorySelection}
                 </button>
                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <li onClick={() => categoryField('All')}>
-                    <a className="dropdown-item" href="#">
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      onClick={() => categoryField('All')}
+                      type="button"
+                    >
                       All
-                    </a>
+                    </button>
                   </li>
-                  <li onClick={() => categoryField('FE')}>
-                    <a className="dropdown-item" href="#">
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      type="button"
+                      onClick={() => categoryField('FE')}
+                    >
                       Front End
-                    </a>
+                    </button>
                   </li>
-                  <li onClick={() => categoryField('BE')}>
-                    <a className="dropdown-item" href="#">
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      type="button"
+                      onClick={() => categoryField('BE')}
+                    >
                       Back End
-                    </a>
+                    </button>
                   </li>
-                  <li onClick={() => categoryField('Data')}>
-                    <a className="dropdown-item" href="#">
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      type="button"
+                      onClick={() => categoryField('Data')}
+                    >
                       Data
-                    </a>
+                    </button>
                   </li>
-                  <li onClick={() => categoryField('DevOps')}>
-                    <a className="dropdown-item" href="#">
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      type="button"
+                      onClick={() => categoryField('DevOps')}
+                    >
                       DevOps
-                    </a>
+                    </button>
                   </li>
                 </ul>
               </div>
@@ -176,13 +197,12 @@ const Search: FC<{}> = () => {
                 <h3>
                   Can&ldquo;t find what you are looking for?
                 </h3>
-                <a
+                <button
                   type="button"
                   className="btn main-color btn-md px-4 me-md-2 fw-bold text-white"
-                  href="#"
                 >
                   Library Services
-                </a>
+                </button>
               </div>
             )}
           {totalPages > 1
@@ -191,6 +211,6 @@ const Search: FC<{}> = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Search;

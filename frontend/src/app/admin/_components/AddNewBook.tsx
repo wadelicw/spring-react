@@ -1,15 +1,14 @@
-import { useSession } from 'next-auth/react';
-import { FC, useState } from 'react';
 import { AddBookRequest } from '@/types/addBookRequest';
+import { useSession } from 'next-auth/react';
+import { ReactElement, useState } from 'react';
 
-export const AddNewBook: FC<{}> = () => {
+export function AddNewBook(): ReactElement {
   // New Book
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [description, setDescription] = useState('');
   const [copies, setCopies] = useState(0);
   const [category, setCategory] = useState('Category');
-  const [selectedImage, setSelectedImage] = useState<any>(null);
   const { data: session } = useSession();
 
   // Displays
@@ -20,23 +19,6 @@ export const AddNewBook: FC<{}> = () => {
     setCategory(value);
   }
 
-  async function base64ConversionForImages(e: any) {
-    if (e.target.files[0]) {
-      getBase64(e.target.files[0]);
-    }
-  }
-
-  function getBase64(file: any) {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-      setSelectedImage(reader.result);
-    };
-    reader.onerror = function (error) {
-      console.log('Error', error);
-    };
-  }
-
   async function submitNewBook() {
     const url = `${process.env.apiEndpoint}/admin/secure/add/book`;
     if (session && title !== '' && author !== '' && category !== 'Category'
@@ -44,7 +26,6 @@ export const AddNewBook: FC<{}> = () => {
       const book: AddBookRequest = {
         title, author, description, copies, category,
       };
-      book.img = selectedImage;
       const requestOptions = {
         method: 'POST',
         headers: {
@@ -63,7 +44,6 @@ export const AddNewBook: FC<{}> = () => {
       setDescription('');
       setCopies(0);
       setCategory('Category');
-      setSelectedImage(null);
       setDisplayWarning(false);
       setDisplaySuccess(true);
     } else {
@@ -76,15 +56,15 @@ export const AddNewBook: FC<{}> = () => {
     <div className="container mt-5 mb-5">
       {displaySuccess
         && (
-        <div className="alert alert-success" role="alert">
-          Book added successfully
-        </div>
+          <div className="alert alert-success" role="alert">
+            Book added successfully
+          </div>
         )}
       {displayWarning
         && (
-        <div className="alert alert-danger" role="alert">
-          All fields must be filled out
-        </div>
+          <div className="alert alert-danger" role="alert">
+            All fields must be filled out
+          </div>
         )}
       <div className="card">
         <div className="card-header">
@@ -94,29 +74,31 @@ export const AddNewBook: FC<{}> = () => {
           <form method="POST">
             <div className="row">
               <div className="col-md-6 mb-3">
-                <label className="form-label">Title</label>
+                <label className="form-label" htmlFor="title">Title</label>
                 <input
                   type="text"
                   className="form-control"
                   name="title"
+                  id="title"
                   required
                   onChange={(e) => setTitle(e.target.value)}
                   value={title}
                 />
               </div>
               <div className="col-md-3 mb-3">
-                <label className="form-label"> Author </label>
+                <label className="form-label" htmlFor="author"> Author </label>
                 <input
                   type="text"
                   className="form-control"
                   name="author"
+                  id="author"
                   required
                   onChange={(e) => setAuthor(e.target.value)}
                   value={author}
                 />
               </div>
               <div className="col-md-3 mb-3">
-                <label className="form-label"> Category</label>
+                <label className="form-label" htmlFor="dropdownMenuButton1"> Category</label>
                 <button
                   className="form-control btn btn-secondary dropdown-toggle"
                   type="button"
@@ -127,15 +109,15 @@ export const AddNewBook: FC<{}> = () => {
                   {category}
                 </button>
                 <ul id="addNewBookId" className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <li><a onClick={() => categoryField('FE')} className="dropdown-item">Front End</a></li>
-                  <li><a onClick={() => categoryField('BE')} className="dropdown-item">Back End</a></li>
-                  <li><a onClick={() => categoryField('Data')} className="dropdown-item">Data</a></li>
-                  <li><a onClick={() => categoryField('DevOps')} className="dropdown-item">DevOps</a></li>
+                  <li><button type="button" onClick={() => categoryField('FE')} className="dropdown-item">Front End</button></li>
+                  <li><button type="button" onClick={() => categoryField('BE')} className="dropdown-item">Back End</button></li>
+                  <li><button type="button" onClick={() => categoryField('Data')} className="dropdown-item">Data</button></li>
+                  <li><button type="button" onClick={() => categoryField('DevOps')} className="dropdown-item">DevOps</button></li>
                 </ul>
               </div>
             </div>
             <div className="col-md-12 mb-3">
-              <label className="form-label">Description</label>
+              <label className="form-label" htmlFor="exampleFormControlTextarea1">Description</label>
               <textarea
                 className="form-control"
                 id="exampleFormControlTextarea1"
@@ -145,17 +127,17 @@ export const AddNewBook: FC<{}> = () => {
               />
             </div>
             <div className="col-md-3 mb-3">
-              <label className="form-label">Copies</label>
+              <label className="form-label" htmlFor="Copies">Copies</label>
               <input
                 type="number"
                 className="form-control"
                 name="Copies"
+                id="Copies"
                 required
                 onChange={(e) => setCopies(Number(e.target.value))}
                 value={copies}
               />
             </div>
-            <input type="file" onChange={(e) => base64ConversionForImages(e)} />
             <div>
               <button type="button" className="btn btn-primary mt-3" onClick={submitNewBook}>
                 Add Book
@@ -166,4 +148,4 @@ export const AddNewBook: FC<{}> = () => {
       </div>
     </div>
   );
-};
+}

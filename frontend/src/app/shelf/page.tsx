@@ -1,10 +1,10 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { HistoryPage } from './_components/HistoryPage';
 import { Loans } from './_components/Loans';
 
-const Shelf: FC<{}> = () => {
+function Shelf(): ReactElement {
   const [historyClick, setHistoryClick] = useState(false);
 
   return (
@@ -55,12 +55,12 @@ const Shelf: FC<{}> = () => {
             role="tabpanel"
             aria-labelledby="nav-history-tab"
           >
-            {historyClick ? <HistoryPage /> : <></>}
+            {historyClick && <HistoryPage />}
           </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default Shelf;

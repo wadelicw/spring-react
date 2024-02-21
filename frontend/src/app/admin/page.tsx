@@ -2,12 +2,12 @@
 
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { FC, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { AddNewBook } from './_components/AddNewBook';
 import { AdminMessages } from './_components/AdminMessages';
 import { ChangeQuantityOfBooks } from './_components/ChangeQuantityOfBooks';
 
-const Admin: FC<{}> = () => {
+function Admin(): ReactElement {
   const router = useRouter();
   const [changeQuantityOfBooksClick, setChangeQuantityOfBooksClick] = useState(false);
   const [messagesClick, setMessagesClick] = useState(false);
@@ -32,7 +32,7 @@ const Admin: FC<{}> = () => {
     if (!session || session.user.role !== 'ADMIN') {
       router.push('/');
     }
-  }, [session]);
+  }, [session, router]);
 
   return (
     <div className="container">
@@ -91,15 +91,15 @@ const Admin: FC<{}> = () => {
             <AddNewBook />
           </div>
           <div className="tab-pane fade" id="nav-quantity" role="tabpanel" aria-labelledby="nav-quantity-tab">
-            {changeQuantityOfBooksClick ? <ChangeQuantityOfBooks /> : <></>}
+            {changeQuantityOfBooksClick && <ChangeQuantityOfBooks />}
           </div>
           <div className="tab-pane fade" id="nav-messages" role="tabpanel" aria-labelledby="nav-messages-tab">
-            {messagesClick ? <AdminMessages /> : <></>}
+            {messagesClick && <AdminMessages />}
           </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default Admin;

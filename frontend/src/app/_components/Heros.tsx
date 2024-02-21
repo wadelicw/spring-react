@@ -1,8 +1,8 @@
 import { getServerSession } from 'next-auth';
 import Link from 'next/link';
-import { FC } from 'react';
+import { ReactElement } from 'react';
 
-export const Heros: FC<{}> = async () => {
+export async function Heros(): Promise<ReactElement> {
   const session = await getServerSession();
   return (
     <div>
@@ -102,4 +102,4 @@ export const Heros: FC<{}> = async () => {
       </div>
     </div>
   );
-};
+}

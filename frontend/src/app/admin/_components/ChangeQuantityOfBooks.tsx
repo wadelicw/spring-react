@@ -1,10 +1,10 @@
-import { FC, useEffect, useState } from 'react';
 import { Pagination } from '@/components/Pagination';
 import { SpinnerLoading } from '@/components/SpinnerLoading';
 import { Book } from '@/types/book';
+import { ReactElement, useEffect, useState } from 'react';
 import { ChangeQuantityOfBook } from './ChangeQuantityOfBook';
 
-export const ChangeQuantityOfBooks: FC<{}> = () => {
+export function ChangeQuantityOfBooks(): ReactElement {
   const [books, setBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,26 +31,13 @@ export const ChangeQuantityOfBooks: FC<{}> = () => {
       setTotalAmountOfBooks(responseJson.page.totalElements);
       setTotalPages(responseJson.page.totalPages);
 
-      const loadedBooks: Book[] = [];
-
-      for (const key in responseData) {
-        loadedBooks.push({
-          id: responseData[key].id,
-          title: responseData[key].title,
-          author: responseData[key].author,
-          description: responseData[key].description,
-          copies: responseData[key].copies,
-          copiesAvailable: responseData[key].copiesAvailable,
-          category: responseData[key].category,
-          img: responseData[key].img,
-        });
-      }
+      const loadedBooks: Book[] = responseData;
 
       setBooks(loadedBooks);
       setIsLoading(false);
     };
     fetchBooks();
-  }, [currentPage, bookDelete]);
+  }, [currentPage, bookDelete, booksPerPage]);
 
   const indexOfLastBook: number = currentPage * booksPerPage;
   const indexOfFirstBook: number = indexOfLastBook - booksPerPage;
@@ -96,7 +83,16 @@ export const ChangeQuantityOfBooks: FC<{}> = () => {
           </>
         )
         : <h5>Add a book before changing quantity</h5>}
-      {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />}
+      {
+        totalPages > 1
+        && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          paginate={paginate}
+        />
+        )
+      }
     </div>
   );
-};
+}

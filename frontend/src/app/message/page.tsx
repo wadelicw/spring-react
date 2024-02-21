@@ -1,10 +1,10 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { Messages } from './_components/Messages';
 import { PostNewMessage } from './_components/PostNewMessage';
 
-const Message: FC<{}> = () => {
+function Message(): ReactElement {
   const [messagesClick, setMessagesClick] = useState(false);
 
   return (
@@ -50,12 +50,12 @@ const Message: FC<{}> = () => {
             <PostNewMessage />
           </div>
           <div className="tab-pane fade" id="nav-message" role="tabpanel" aria-labelledby="nav-message-tab">
-            {messagesClick ? <Messages /> : <></>}
+            {messagesClick && <Messages />}
           </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default Message;

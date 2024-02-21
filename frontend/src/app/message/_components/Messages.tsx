@@ -4,9 +4,9 @@ import { Pagination } from '@/components/Pagination';
 import { SpinnerLoading } from '@/components/SpinnerLoading';
 import { Message } from '@/types/message';
 import { useSession } from 'next-auth/react';
-import { FC, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 
-export const Messages: FC<{}> = () => {
+export function Messages(): ReactElement {
   const [isLoadingMessages, setIsLoadingMessages] = useState(true);
   const { data: session } = useSession();
 
@@ -39,11 +39,9 @@ export const Messages: FC<{}> = () => {
       }
       setIsLoadingMessages(false);
     };
-    fetchUserMessages().catch((error: any) => {
-      setIsLoadingMessages(false);
-    });
+    fetchUserMessages();
     window.scrollTo(0, 0);
-  }, [currentPage]);
+  }, [currentPage, messagesPerPage, session]);
 
   if (isLoadingMessages) {
     return (
@@ -60,7 +58,7 @@ export const Messages: FC<{}> = () => {
           <>
             <h5>Current Q/A: </h5>
             {messages.map((message, index) => (
-              <div key={index}>
+              <div key={message.id}>
                 <div className="card mt-2 shadow p-3 bg-body rounded">
                   <h5>
                     Case #
@@ -92,7 +90,16 @@ export const Messages: FC<{}> = () => {
           </>
         )
         : <h5>All questions you submit will be shown here</h5>}
-      {totalPages > 1 && <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />}
+      {
+        totalPages > 1
+        && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            paginate={paginate}
+          />
+        )
+      }
     </div>
   );
-};
+}

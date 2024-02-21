@@ -1,14 +1,16 @@
 'use client';
 
+import { SpinnerLoading } from '@/components/SpinnerLoading';
+import { ShelfCurrentLoans } from '@/types/shelfCurrentLoans';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FC, useEffect, useState } from 'react';
-import { ShelfCurrentLoans } from '@/types/shelfCurrentLoans';
-import { SpinnerLoading } from '@/components/SpinnerLoading';
+import {
+  ReactElement, useCallback, useEffect, useState,
+} from 'react';
 import { LoansModal } from './LoansModal';
 
-export const Loans: FC<{}> = () => {
+export function Loans(): ReactElement {
   // Current Loans
   const [shelfCurrentLoans, setShelfCurrentLoans] = useState<ShelfCurrentLoans[]>([]);
   const [isLoadingUserLoans, setIsLoadingUserLoans] = useState(true);
@@ -16,70 +18,67 @@ export const Loans: FC<{}> = () => {
   const { data: session } = useSession();
 
   useEffect(() => {
+    if (!session) return;
     const fetchUserCurrentLoans = async () => {
-      if (session) {
-        const url = `${process.env.apiEndpoint}/books/secure/currentloans`;
-        const requestOptions = {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${session.user.accessToken}`,
-            'Content-Type': 'application/json',
-          },
-        };
-        const shelfCurrentLoansResponse = await fetch(url, requestOptions);
-        if (!shelfCurrentLoansResponse.ok) {
-          throw new Error('Something went wrong!');
-        }
-        const shelfCurrentLoansResponseJson = await shelfCurrentLoansResponse.json();
-        setShelfCurrentLoans(shelfCurrentLoansResponseJson);
+      const url = `${process.env.apiEndpoint}/books/secure/currentloans`;
+      const requestOptions = {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${session?.user?.accessToken}`, // Add null check
+          'Content-Type': 'application/json',
+        },
+      };
+      const shelfCurrentLoansResponse = await fetch(url, requestOptions);
+      if (!shelfCurrentLoansResponse.ok) {
+        throw new Error('Something went wrong!');
       }
+      const shelfCurrentLoansResponseJson = await shelfCurrentLoansResponse.json();
+      setShelfCurrentLoans(shelfCurrentLoansResponseJson);
       setIsLoadingUserLoans(false);
     };
     fetchUserCurrentLoans();
     window.scrollTo(0, 0);
-  }, [checkout]);
+  }, [session, checkout]);
+
+  const returnBook = useCallback(async (bookId: number) => {
+    if (!session) return;
+    const url = `${process.env.apiEndpoint}/books/secure/return?bookId=${bookId}`;
+    const requestOptions = {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${session.user.accessToken}`, // Add null check
+        'Content-Type': 'application/json',
+      },
+    };
+    const returnResponse = await fetch(url, requestOptions);
+    if (!returnResponse.ok) {
+      throw new Error('Something went wrong!');
+    }
+    setCheckout(!checkout);
+  }, [session, checkout]);
+
+  const renewLoan = useCallback(async (bookId: number) => {
+    if (!session) return;
+    const url = `${process.env.apiEndpoint}/books/secure/renew/loan?bookId=${bookId}`;
+    const requestOptions = {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${session.user.accessToken}`, // Add null check
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const returnResponse = await fetch(url, requestOptions);
+    if (!returnResponse.ok) {
+      throw new Error('Something went wrong!');
+    }
+    setCheckout(!checkout);
+  }, [session, checkout]);
 
   if (isLoadingUserLoans) {
     return (
       <SpinnerLoading />
     );
-  }
-
-  async function returnBook(bookId: number) {
-    if (session) {
-      const url = `${process.env.apiEndpoint}/books/secure/return?bookId=${bookId}`;
-      const requestOptions = {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${session.user.accessToken}`,
-          'Content-Type': 'application/json',
-        },
-      };
-      const returnResponse = await fetch(url, requestOptions);
-      if (!returnResponse.ok) {
-        throw new Error('Something went wrong!');
-      }
-      setCheckout(!checkout);
-    }
-  }
-
-  async function renewLoan(bookId: number) {
-    if (session) {
-      const url = `${process.env.apiEndpoint}/books/secure/renew/loan?bookId=${bookId}`;
-      const requestOptions = {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${session.user.accessToken}`,
-          'Content-Type': 'application/json',
-        },
-      };
-
-      const returnResponse = await fetch(url, requestOptions);
-      if (!returnResponse.ok) {
-        throw new Error('Something went wrong!');
-      }
-      setCheckout(!checkout);
-    }
   }
 
   return (
@@ -111,37 +110,38 @@ export const Loans: FC<{}> = () => {
                         <div className="mt-3">
                           <h4>Loan Options</h4>
                           {shelfCurrentLoan.daysLeft > 0
-                          && (
-                          <p className="text-secondary">
-                            Due in
-                            {' '}
-                            {shelfCurrentLoan.daysLeft}
-                            {' '}
-                            days.
-                          </p>
-                          )}
+                            && (
+                              <p className="text-secondary">
+                                Due in
+                                {' '}
+                                {shelfCurrentLoan.daysLeft}
+                                {' '}
+                                days.
+                              </p>
+                            )}
                           {shelfCurrentLoan.daysLeft === 0
-                          && (
-                          <p className="text-success">
-                            Due Today.
-                          </p>
-                          )}
+                            && (
+                              <p className="text-success">
+                                Due Today.
+                              </p>
+                            )}
                           {shelfCurrentLoan.daysLeft < 0
-                          && (
-                          <p className="text-danger">
-                            Past due by
-                            {' '}
-                            {shelfCurrentLoan.daysLeft}
-                            {' '}
-                            days.
-                          </p>
-                          )}
+                            && (
+                              <p className="text-danger">
+                                Past due by
+                                {' '}
+                                {shelfCurrentLoan.daysLeft}
+                                {' '}
+                                days.
+                              </p>
+                            )}
                           <div className="list-group mt-3">
                             <button
                               className="list-group-item list-group-item-action"
                               aria-current="true"
                               data-bs-toggle="modal"
                               data-bs-target={`#modal${shelfCurrentLoan.book.id}`}
+                              type="button"
                             >
                               Manage Loan
                             </button>
@@ -209,37 +209,38 @@ export const Loans: FC<{}> = () => {
                       <div className="mt-3">
                         <h4>Loan Options</h4>
                         {shelfCurrentLoan.daysLeft > 0
-                        && (
-                        <p className="text-secondary">
-                          Due in
-                          {' '}
-                          {shelfCurrentLoan.daysLeft}
-                          {' '}
-                          days.
-                        </p>
-                        )}
+                          && (
+                            <p className="text-secondary">
+                              Due in
+                              {' '}
+                              {shelfCurrentLoan.daysLeft}
+                              {' '}
+                              days.
+                            </p>
+                          )}
                         {shelfCurrentLoan.daysLeft === 0
-                        && (
-                        <p className="text-success">
-                          Due Today.
-                        </p>
-                        )}
+                          && (
+                            <p className="text-success">
+                              Due Today.
+                            </p>
+                          )}
                         {shelfCurrentLoan.daysLeft < 0
-                        && (
-                        <p className="text-danger">
-                          Past due by
-                          {' '}
-                          {shelfCurrentLoan.daysLeft}
-                          {' '}
-                          days.
-                        </p>
-                        )}
+                          && (
+                            <p className="text-danger">
+                              Past due by
+                              {' '}
+                              {shelfCurrentLoan.daysLeft}
+                              {' '}
+                              days.
+                            </p>
+                          )}
                         <div className="list-group mt-3">
                           <button
                             className="list-group-item list-group-item-action"
                             aria-current="true"
                             data-bs-toggle="modal"
                             data-bs-target={`#mobilemodal${shelfCurrentLoan.book.id}`}
+                            type="button"
                           >
                             Manage Loan
                           </button>
@@ -282,4 +283,4 @@ export const Loans: FC<{}> = () => {
       </div>
     </div>
   );
-};
+}

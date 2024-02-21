@@ -48,7 +48,17 @@
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
         "import/prefer-default-export": "off",
-        "no-restricted-exports": 0
+        "no-restricted-exports": 0,
+        "no-underscore-dangle": ["error", { "allow": ["_embedded"] }],
+        "jsx-a11y/label-has-associated-control": [
+            "error",
+            {
+                "required": {
+                    "some": ["nesting", "id"]
+                }
+            }
+        ],
+        "import/no-named-as-default": 0
     },
     "settings": {
         "import/parsers": {
